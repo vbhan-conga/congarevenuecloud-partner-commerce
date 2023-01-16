@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectorRef, AfterViewChecked, NgZone, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription, BehaviorSubject, combineLatest, of } from 'rxjs';
-import { filter, flatMap, map, switchMap, mergeMap, startWith, take, tap } from 'rxjs/operators';
-import { get, set, indexOf, first, sum, isEmpty, cloneDeep, filter as rfilter, find, compact, uniq, defaultTo } from 'lodash';
-import { ApiService } from '@congarevenuecloud/core';
+import { filter, map, switchMap, mergeMap, startWith } from 'rxjs/operators';
+import { get, set, indexOf, sum, cloneDeep, find, defaultTo } from 'lodash';
 import {
-  Order, Quote, OrderLineItem, OrderService, UserService,
-  ItemGroup, LineItemService, Note, NoteService, EmailService, AccountService,
-  Contact, CartService, Cart, OrderLineItemService, Account, ContactService, OrderPayload, QuoteService
+  Order, OrderLineItem, OrderService, UserService,
+  ItemGroup, LineItemService, Note, NoteService, AccountService,
+  Contact, OrderLineItemService, Account, ContactService, OrderPayload, QuoteService
 } from '@congarevenuecloud/ecommerce';
-import { ExceptionService, LookupOptions, RevalidateCartService } from '@congarevenuecloud/elements';
+import { ExceptionService, LookupOptions } from '@congarevenuecloud/elements';
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
@@ -77,14 +76,9 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     private userService: UserService,
     private exceptionService: ExceptionService,
     private noteService: NoteService,
-    private router: Router,
-    private emailService: EmailService,
     private accountService: AccountService,
-    private cartService: CartService,
     private cdr: ChangeDetectorRef,
     private orderLineItemService: OrderLineItemService,
-    private apiService: ApiService,
-    private revalidateCartService: RevalidateCartService,
     private quoteService: QuoteService,
     private contactService: ContactService,
     private ngZone: NgZone) { }
