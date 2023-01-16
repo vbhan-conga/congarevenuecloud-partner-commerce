@@ -1,0 +1,44 @@
+<div class="card animated fadeIn" *ngIf="cart">
+  <div class="card-header">
+    <h5 class="card-title mb-0" *ngIf="!cart.Proposald?.Id">{{'MANAGE_CART.CART_SUMMARY.CART_SUMMARY_TITLE' | translate }}</h5>
+    <h5 class="card-title mb-0" *ngIf="cart.Proposald?.Id">{{'DETAILS.PRICE_SUMMARY' | translate }}</h5>
+  </div>
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <span> {{'MANAGE_CART.CART_SUMMARY.TOTAL_PRICE' | translate }} </span>
+      <span class="font-weight-bold">
+        <apt-price [record]="cart"></apt-price>
+      </span>
+    </div>
+    <div *ngIf="(storefront$ | async)?.EnablePromotions && (storefront$ | async) !== null ? true : false" class="d-flex mt-2 justify-content-between">
+      <span> {{'MANAGE_CART.CART_SUMMARY.PROMOTIONS_APPLIED' | translate }} </span>
+      <span>{{totalPromotions | localCurrency | async}}</span>
+    </div>
+    <hr class="mt-2 mb-3" />
+    <div class="d-flex justify-content-between">
+      <span> {{'MANAGE_CART.CART_SUMMARY.SUB_TOTAL' | translate }} </span>
+      <span class="font-weight-bold">
+        <apt-price [record]="cart"></apt-price>
+      </span>
+    </div>
+    <hr class="mt-2 mb-3" />
+  </div>
+</div>
+
+
+<ng-template #discardChangesTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"> {{'MANAGE_CART.DISCARD_CHANGES_MODAL.DISCARD_CHANGES_TITLE' | translate}} </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="discardChangesModal.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body flex-column justify-content-center">
+    <p>{{'MANAGE_CART.DISCARD_CHANGES_MODAL.DISCARD_CHANGES_Message' | translate}}</p>
+    <p>{{'MANAGE_CART.DISCARD_CHANGES_MODAL.DISCARD_CHANGES_CONFIRMATION' | translate}}</p>
+    <div class="d-flex justify-content-end flex-wrap flex-md-nowrap">
+        <button class="btn btn-link" (click)="discardChangesModal.hide()"> {{ 'COMMON.CANCEL' | translate }} </button>
+        <button class="btn btn-danger btn-raised m-2"  (click)="onDiscardChages()" data-style="zoom-in"> {{ 'MANAGE_CART.DISCARD_CHANGES_MODAL.DISCARD_CHANGES' | translate }} </button>
+    </div>
+</div>
+</ng-template>

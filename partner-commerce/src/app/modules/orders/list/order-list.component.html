@@ -1,0 +1,38 @@
+<ng-container *ngTemplateOutlet="orderList; context: { view: view$ | async }"></ng-container>
+<ng-template #orderList let-view="view">
+    <div class="row mb-3">
+        <div class="col-12">
+            <apt-data-filter [type]="type" [filterOptions]="filterOptions" [filterList]="filterList$ | async"
+                (filterListChange)="handleFilterListChange($event)">
+            </apt-data-filter>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 d-flex summary">
+            <div class="d-flex align-items-end">
+                <span class="text-muted">{{'COMMON.TOTAL_ORDERS' | translate}}:</span>
+                <h4 class="my-0 ml-2">{{totalRecords$ | async}}</h4>
+            </div>
+            <div class="d-flex align-items-end">
+                <span class="text-muted">{{'COMMON.AMOUNT' | translate}}:</span>
+                <h4 class="my-0 ml-2">{{(totalAmount$ | async) | convertCurrency | async}}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <apt-table *ngIf="view?.tableOptions; else loading" [type]="type"
+                        [options]="view?.tableOptions" [showErrorToaster]="true"></apt-table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #loading>
+        <div class="d-flex justify-content-center">
+            <apt-dots></apt-dots>
+        </div>
+    </ng-template>
+</ng-template>
