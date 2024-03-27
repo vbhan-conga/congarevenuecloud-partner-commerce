@@ -1,0 +1,35 @@
+<div class="card animated fadeIn mt-3">
+    <h5 class="card-header mb-0">
+        {{ 'CART.CART_SUMMARY.YOUR_CART' | translate }}
+    </h5>
+
+    <div class="card-body">
+        <ul class="list-group" style="list-style-type: none;">
+            <ng-container *ngFor="let item of lineItems; last as isLast">
+                <li class="group-item d-flex justify-content-between lh-condensed"  *ngIf="item.LineType === 'Product/Service'" >
+                    <div class="details">
+                        <h6 class="my-0">
+                            {{item?.Product?.Name}}
+                        </h6>
+                        <small *ngIf="item?.Product?.ProductCode" class="text-muted" [translate]="'CART.CART_SUMMARY.PRODUCT_ID'" [translateParams]="{productCode: item?.Product?.ProductCode}"></small>
+                        <small class="text-muted">{{ 'CART.CART_SUMMARY.QUANTITY' | translate }} {{item.Quantity}}</small>
+                        <small *ngIf="item?.Product?.HasAttributes || item?.Product?.HasOptions">
+                            <a href="javascript:void(0)" (click)="openModal(item)">{{ 'CART.CART_SUMMARY.DETAILS' | translate }}</a>
+                        </small>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-muted strike-text d-block"><span>{{item?.ExtendedPrice | localCurrency | async}}</span></span>
+                        <span class="text-muted d-block"><span>{{item?.NetPrice | localCurrency | async}}</span></span>
+                    </div>
+                </li>
+                <hr class="mt-2 mb-2" style="width: 100%;" *ngIf="!isLast" />
+            </ng-container>
+        </ul>
+    </div>
+</div>
+
+<apt-product-configuration-summary
+  *ngIf="lineItem"
+  [product]="lineItem.Product"
+  [relatedTo]="lineItem">
+</apt-product-configuration-summary>
