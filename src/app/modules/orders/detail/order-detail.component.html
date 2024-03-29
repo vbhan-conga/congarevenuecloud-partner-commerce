@@ -210,9 +210,9 @@
         <div class="row">
           <div class="col-12 col-md-7 attachment-container">
             <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
-              <div class="table-container">
+              <div class="table-container overflow-auto">
                 <table class="table table-sm">
-                  <thead>
+                  <thead class = "position-sticky bg-white">
                     <tr>
                       <th scope="col">#</th>
 

@@ -1,20 +1,5 @@
 @import "variables.scss";
 
-dt,
-dd {
-  display: block;
-  width: 100%;
-}
-
-dl,
-dd,
-dt {
-  margin-bottom: 0;
-}
-
-dt {
-  margin-top: $btn-block-spacing-y;
-}
 
 table {
   tr:first-child td {
@@ -26,12 +11,6 @@ div.table-responsive {
   overflow-y: hidden;
 }
 
-.cart-total {
-  width: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
 .fixed-height {
   height: 30px;
@@ -73,7 +52,6 @@ p.description {
 
 .sidenav {
   height: 100%;
-  position: fixed;
   width: 0;
   z-index: 1039 !important;
   top: 0;
