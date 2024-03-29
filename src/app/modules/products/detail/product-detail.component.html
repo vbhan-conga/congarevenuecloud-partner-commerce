@@ -1,7 +1,7 @@
 <app-detail [title]="viewState?.product?.Name" [subtitle]="viewState?.product?.ProductCode" [largeContainer]="true"
     [context]="viewState?.product" *ngIf="viewState$ | async as viewState; else loading">
     <div class="constraintAlerts">
-        <apt-alert [record]="activeCart" [autoRun]="false"></apt-alert>
+        <apt-alert [record]="activeCart" [autoRun]="false" [showPriceError]="priceProgress"></apt-alert>
         <apt-constraint-rule-alert></apt-constraint-rule-alert>
     </div>
 
@@ -140,7 +140,7 @@
 
         <!-- Complex Product Controls -->
         <ng-template #complexSmallScreen>
-            <div class="d-flex justify-content-between pt-3">
+            <div class="d-flex justify-content-between pt-3 border-top">
                 <ng-container *ngIf="viewState?.relatedTo; else newProductSmallScreen">
                     <div class="form-group my-0 d-flex align-items-center w-50">
                         <span class="mr-1"> {{'COMMON.QTY' | translate}} </span>

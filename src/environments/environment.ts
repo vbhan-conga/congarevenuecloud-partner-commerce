@@ -1,7 +1,7 @@
 import { Configuration } from '@congarevenuecloud/core';
 
 export const environment: Configuration = {
-  production: true,
+  production: false,
   defaultImageSrc: 'Enter your URL here',
   defaultCountry: 'US',
   defaultLanguage: 'en-US',

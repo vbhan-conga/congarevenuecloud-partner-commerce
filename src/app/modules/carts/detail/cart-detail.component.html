@@ -11,7 +11,7 @@
     <apt-constraint-rule-alert></apt-constraint-rule-alert>
   </ng-template>
 
-  <apt-alert message="ERROR.CART.VALIDATE" [showCartError]="true" [autoRun]="false"></apt-alert>
+  <apt-alert message="ERROR.CART.VALIDATE" [showCartError]="true"  [showPriceError]="priceError$ | async" [autoRun]="false"></apt-alert>
   <div class="container-fluid" [ngClass]="'py-2'">
     <div class="px-4">
       <div class="detail-header pb-2">
@@ -45,7 +45,7 @@
           <div class="d-flex flex-column">
             <div class="card">
               <div class="card-header border-bottom">
-                <h5>
+                <h5 class="mb-0">
                   {{ "DETAILS.CART_SUMMARY" | translate }}
                 </h5>
               </div>
@@ -196,7 +196,7 @@
       </div>
     </div>
   </div>
-  <div id="mySidenav" class="sidenav" [ngClass]="showSideNav? 'showNav': ''">
+  <div id="mySidenav" class="sidenav position-fixed" [ngClass]="showSideNav? 'showNav': ''">
     <apt-price-summary [record]="view?.cart" [page]="'carts'" [readonly]="readOnly" [disabled]="disabled"
     [loading]="loading" (onFinalizeQuote)="convertCartToQuote(view?.cart?.Proposald)"
     (onHidePanel)="closeNav()"></apt-price-summary>

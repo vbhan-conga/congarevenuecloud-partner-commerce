@@ -48,7 +48,6 @@ app-order-detail {
 
 .file-upload {
   input[type='file'] {
-    opacity: 0;
     z-index: -1;
   }
 }
@@ -60,12 +59,9 @@ app-order-detail {
 
 .table-container {
   max-height: 18em;
-  overflow: auto;
 }
 
 .table-container table thead {
-  position: sticky;
   top: 0;
-  background-color: #fff;
   z-index: 1;
 }
