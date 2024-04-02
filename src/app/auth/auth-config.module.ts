@@ -19,8 +19,8 @@ export const httpLoaderFactory = () => {
       }
       return {
         authority: authOptions.authEndpoint,
-        redirectUrl: 'https://localhost:3000',
-        postLogoutRedirectUri: 'https://localhost:3000',
+        redirectUrl: redirectUri,
+        postLogoutRedirectUri: redirectUri,
         clientId: authOptions.spaClientId,
         scope: 'openid profile offline_access',
         responseType: 'code',
