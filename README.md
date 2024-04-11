@@ -4,7 +4,7 @@ This is the base reference application for the Conga ecommerce product. Follow b
 
 ---
 
-## Table of content
+## Table of content 
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
