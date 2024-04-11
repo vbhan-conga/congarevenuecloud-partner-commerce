@@ -193,9 +193,9 @@
         <div class="row">
           <div class="col-12 col-md-7 border-right attachment-container">
             <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
-              <div class="table-container">
+              <div class="overflow-auto table-container">
                 <table class="table table-sm">
-                  <thead>
+                  <thead class="position-sticky bg-white">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="Name"

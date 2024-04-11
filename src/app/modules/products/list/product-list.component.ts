@@ -18,7 +18,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   page = 1;
   pageSize = 12;
   view = 'grid';
-  sortField: string = 'Relevance';
+  sortField: string = 'Name';
   productFamilyFilter: Array<FieldFilter>;
   subCategories: Array<Category> = [];
 
