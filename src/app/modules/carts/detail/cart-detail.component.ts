@@ -1,13 +1,13 @@
 import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, NgZone, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, combineLatest, of } from 'rxjs';
-import { map, switchMap, take, filter as _filter } from 'rxjs/operators';
-import { cloneDeep, each, filter, forEach, get, isEqual, isNil, isNull, lowerCase, set } from 'lodash';
+import { map, switchMap, take, filter as _filter, debounceTime, first } from 'rxjs/operators';
+import { filter, forEach, get, isEqual, isNil, isNull, lowerCase, pick, set } from 'lodash';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cart, CartItem, CartService, LineItemService, Product, Order, Quote, ItemGroup, QuoteService, ConstraintRuleService, OrderService, ItemRequest } from '@congarevenuecloud/ecommerce';
 import { BatchActionService, RevalidateCartService, ExceptionService, ButtonAction } from '@congarevenuecloud/elements';
-import { plainToClass } from 'class-transformer';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { plainToClass } from 'class-transformer';
 
 @Component({
   selector: 'app-cart-detail',
@@ -22,6 +22,7 @@ export class CartDetailComponent implements OnInit {
   modalRef: BsModalRef;
   view$: BehaviorSubject<ManageCartState> = new BehaviorSubject<ManageCartState>(null);
   businessObject$: Observable<Order | Quote> = of(null);
+  priceError$: Observable<boolean>;
   quoteConfirmation: Quote;
   confirmationModal: BsModalRef;
   loading: boolean = false;
@@ -39,7 +40,7 @@ export class CartDetailComponent implements OnInit {
       onClick: () => this.openCloneCartModal(),
     },
   ]
-  showSideNav: boolean= false;
+  showSideNav: boolean = false;
   constructor(private cartService: CartService,
     private quoteService: QuoteService,
     private orderService: OrderService,
@@ -54,6 +55,7 @@ export class CartDetailComponent implements OnInit {
     private exceptionService: ExceptionService
   ) { }
   ngOnInit() {
+    this.priceError$ = this.cartService.getCartPriceStatus();
     this.getCart();
   }
 
@@ -62,9 +64,10 @@ export class CartDetailComponent implements OnInit {
     this.subscription.push(combineLatest([
       this.cartService.getMyCart(),
       this.crService.getRecommendationsForCart(),
-      get(this.activatedRoute.params, "_value.id") ? this.cartService.getCartWithId(get(this.activatedRoute.params, "_value.id")) : of(null),
+      this.cartService.isCartActive(get(this.activatedRoute.params, "_value.id")) ? of(null) : this.cartService.getCartWithId(get(this.activatedRoute.params, "_value.id")),
       this.revalidateCartService.revalidateFlag
     ]).pipe(
+      debounceTime(500),
       switchMap(([cart, products, nonActive, revalidateFlag]) => {
         this.disabled = revalidateFlag;
         this.readOnly = get(cart, 'Id') === get(nonActive, 'Id') || isNull(nonActive) ? false : true;
@@ -82,16 +85,17 @@ export class CartDetailComponent implements OnInit {
         } else {
           this.businessObject$ = of(null);
         }
-        return combineLatest([this.cartService.fetchCartStatus(get(this.cart,'Id')), this.businessObject$, of(products)]);
+        return combineLatest([of(this.cart), this.businessObject$, of(products), this.readOnly ? this.cartService.addAdjustmentInfoToLineItems(this.cart?.Id) : of(null)]);
       }),
-      switchMap(([cartInfo, businessObjectInfo, productsInfo]) => {
+      switchMap(([cartInfo, businessObjectInfo, productsInfo, lineItemsWithIncentives]) => {
+        if (this.readOnly && !isNil(lineItemsWithIncentives)) {
+          cartInfo.LineItems = lineItemsWithIncentives;
+        }
         isEqual(get(cartInfo, 'BusinessObjectType'), 'Proposal') ? set(cartInfo, 'Proposald', businessObjectInfo) : set(cartInfo, 'Order', businessObjectInfo);
-        cartInfo.set('error',get(this.cart,'_metadata.error'));
-        cartInfo.set('ConfigResponse',get(this.cart,'ConfigResponse'));
-        const cartItems = get(cartInfo, 'LineItems');
+        const cartItems = plainToClass(CartItem, get(cartInfo, 'LineItems'));
         return of({
           cart: cartInfo,
-          lineItems: LineItemService.groupItems(cartItems),
+          lineItems: LineItemService.groupItems(cartItems as unknown as CartItem[]),
           orderOrQuote: isNil(get(cartInfo, 'Order')) ? get(cartInfo, 'Proposald') : get(cartInfo, 'Order'),
           productList: productsInfo
         } as ManageCartState);
@@ -165,8 +169,7 @@ export class CartDetailComponent implements OnInit {
     if (this.cartName) {
       this.cart.Name = this.cartName
     }
-    delete this.cart.Status;
-    this.cartService.cloneCart(this.cart.Id, this.cart, true, true).pipe(take(1)).subscribe(
+    this.cartService.cloneCart(this.cart.Id, pick(this.cart, ['Name']) as Cart, true, true).pipe(take(1)).subscribe(
       res => {
         this.loading = false;
         this.modalRef.hide();
@@ -180,17 +183,17 @@ export class CartDetailComponent implements OnInit {
   }
 
   openNav() {
-    this.showSideNav= true;
+    this.showSideNav = true;
   }
-  
+
   /* Set the width of the side navigation to 0 */
   closeNav() {
-    this.showSideNav=false;
+    this.showSideNav = false;
   }
 
   ngOnDestroy() {
     if (!isNil(this.subscription))
-    this.subscription.forEach(subscription => subscription.unsubscribe());
+      this.subscription.forEach(subscription => subscription.unsubscribe());
   }
 }
 export interface ManageCartState {

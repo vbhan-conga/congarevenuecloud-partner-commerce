@@ -74,7 +74,7 @@ export class FavoriteDetailComponent implements OnInit, OnDestroy {
     .subscribe(res => {
       this.cart = res;
       const cartItems = plainToClass(CartItem, get(res,'Items'), { ignoreDecorators: true });
-      const lines = LineItemService.groupItems(cartItems as unknown as Array<CartItem>);
+      const lines = LineItemService.groupItems(cartItems as unknown as CartItem[]);
       this.lineItems$.next(lines);
     }));
   }

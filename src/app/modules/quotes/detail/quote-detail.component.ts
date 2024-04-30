@@ -41,9 +41,9 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
 
   uploadFileList: any;
 
-  isSupportedFileType:boolean = true;
+  isSupportedFileType: boolean = true;
 
-  supportedFileTypes:string;
+  supportedFileTypes: string;
 
   editLoader = false;
 
@@ -94,7 +94,7 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
 
   isPrivate: boolean = false;
   maxFileSizeLimit = 29360128;
-  cartRecord: Cart;
+  cartRecord: Cart = new Cart();
 
   constructor(private activatedRoute: ActivatedRoute,
     private quoteService: QuoteService,
@@ -119,7 +119,7 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
     this.getQuote();
     this.quoteSubscription.push(this.attachmentService.getSupportedAttachmentType().pipe(
       take(1)
-    ).subscribe((data: string)=>{
+    ).subscribe((data: string) => {
       this.supportedFileTypes = data;
     }))
   }
@@ -134,11 +134,13 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
         switchMap((quote: Quote) => {
           const quoteLineItems = LineItemService.groupItems(get(quote, 'Items'));
           this.quoteLineItems$.next(quoteLineItems);
-          return combineLatest([isEmpty(quoteLineItems) ? of(null) : (this.cartService.fetchCartStatus(get(get(first(this.quoteLineItems$.value), 'MainLine.Configuration'), 'Id'))), of(quote)])
+          set(this.cartRecord, 'Id', get(get(first(this.quoteLineItems$.value), 'MainLine.Configuration'), 'Id'))
+          return combineLatest([isEmpty(quoteLineItems) ? of(null) : (this.cartService.addAdjustmentInfoToLineItems(this.cartRecord?.Id)), of(quote)])
         }),
         take(1),
-        switchMap(([cartRecord, quote]) => {
-          this.cartRecord = cartRecord;
+        switchMap(([lineItems, quote]) => {
+          this.cartRecord.LineItems = lineItems;
+          this.cartRecord.BusinessObjectType = 'Proposal';
           return this.updateQuoteValue(quote);
         })
       ).subscribe());
@@ -335,7 +337,7 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
       this.uploadFileList = event.target.files;
       this.hasFileSizeExceeded(this.uploadFileList, this.maxFileSizeLimit);
       this.file = fileList[0];
-      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList,this.supportedFileTypes);
+      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList, this.supportedFileTypes);
     }
   }
 
@@ -352,7 +354,7 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
     if (fileList.length > 0) {
       this.uploadFileList = event.dataTransfer.files;
       this.hasFileSizeExceeded(this.uploadFileList, event.target.dataset.maxSize);
-      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList,this.supportedFileTypes);
+      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList, this.supportedFileTypes);
     } else {
       let f = [];
       for (let i = 0; i < itemList.length; i++) {
