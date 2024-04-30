@@ -1,4 +1,4 @@
-<apt-alert [autoRun]="false" [showCartError]="true"></apt-alert>
+<apt-alert [autoRun]="false" [showCartError]="true" [showPriceError]="priceError$ | async"></apt-alert>
 <ng-container *ngIf="products; else spinner">
   <apt-product-compare [identifiers]="identifiers"></apt-product-compare>
 </ng-container>

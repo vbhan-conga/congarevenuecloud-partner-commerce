@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, SecurityContext } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { get, isNil, isEmpty, toString, toNumber, set } from 'lodash';
+import { get, isNil, isEmpty, toString, toNumber, set, remove, isEqual } from 'lodash';
 import { Observable, of, BehaviorSubject, Subscription, combineLatest, empty } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { mergeMap } from 'rxjs/operators';
 import { FilterOperator } from '@congarevenuecloud/core';
-import { Category, ProductService, ProductResult, PreviousState, FieldFilter, AccountService, CategoryService, Product, FacetFilter, FacetFilterPayload } from '@congarevenuecloud/ecommerce';
+import { Category, ProductService, ProductResult, PreviousState, FieldFilter, AccountService, CategoryService, Product, FacetFilter, FacetFilterPayload, CartService } from '@congarevenuecloud/ecommerce';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -41,9 +41,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     next: '',
     last: ''
   };
+  priceError$: Observable<boolean>;
 
   constructor(private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private categoryService: CategoryService,
-    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService) { }
+    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService, private cartService: CartService) { }
 
   ngOnDestroy() {
     if (!isNil(this.subscription))
@@ -51,6 +52,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.priceError$ = this.cartService.getCartPriceStatus();
     this.router.events.subscribe((eventname: NavigationStart) => {
       if (eventname.navigationTrigger === 'popstate' && eventname instanceof NavigationStart) {
         this.productService.eventback.next(true);
@@ -125,6 +127,27 @@ export class ProductListComponent implements OnInit, OnDestroy {
       window.requestAnimationFrame(this.scrollTop);
       window.scrollTo(0, c - c / 8);
     }
+  }
+
+  /**
+   * This function is called when adding search filter criteria to product grid.
+   * @param condition Search filter query to filter products.
+   */
+  onFilterAdd(condition:FieldFilter) {
+    this.productFamilyFilter= isNil(this.productFamilyFilter) ? [] : this.productFamilyFilter;
+    this.productFamilyFilter.push(condition);
+    this.page = 1;
+    this.getResults();
+  }
+
+  /**
+   * This function is called when removing search filter criteria to product grid.
+   * @param condition Search filter query to remove from products grid.
+   */
+  onFilterRemove(condition:FieldFilter) {
+    remove(this.productFamilyFilter, (c) => isEqual(c, condition));
+    this.page = 1;
+    this.getResults();
   }
 
   onCategory(categoryList: Array<Category>) {

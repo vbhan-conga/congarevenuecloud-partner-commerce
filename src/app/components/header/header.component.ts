@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { first, defaultTo, get, cloneDeep, isEqual } from 'lodash';
+import { first, defaultTo, get, cloneDeep, isEqual, upperFirst } from 'lodash';
 import {
   UserService,
   User,
@@ -48,7 +48,9 @@ export class HeaderComponent implements OnInit {
     this.showFavorites$ = this.storefrontService.isFavoriteEnabled();
     this.user$ = this.userService.me().pipe(
       tap((user: User) => {
-        this.userInitials = defaultTo(first(user.FirstName), '') as string + defaultTo(first(user.LastName), '') as string;
+        this.userInitials = defaultTo(upperFirst(first(user.FirstName)), '') as string + defaultTo(upperFirst(first(user.LastName)), '') as string;
+        user.FirstName= upperFirst(user.FirstName);
+        user.LastName= upperFirst(user.LastName);
       })
     );
   }
