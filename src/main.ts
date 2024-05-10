@@ -27,7 +27,6 @@ export const config$: Observable<AuthOptions> = ajax.getJSON(configUrl).pipe(
 
 config$.pipe(take(1)).subscribe((authOptions: AuthOptions) => {
   environment.endpoint = authOptions.apiEndpoint;
-  environment.endpoint = authOptions.apiEndpoint;
   environment.loginEndpoint = authOptions.login;
   environment.clientId = authOptions.spaClientId;
   platformBrowserDynamic().bootstrapModule(AppModule)
