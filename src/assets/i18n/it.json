@@ -377,11 +377,6 @@
         "NO": "No",
         "EMPTY": "- Vuoto -",
         "YOU_MAY_ALSO_LIKE": "Si può anche come",
-        "RENEW": "Rinnovare",
-        "BUY_MORE": "Comprare Di Più",
-        "CHANGE_CONFIGURATION": "Modificare La Configurazione",
-        "TERMINATE": "Terminare",
-        "TERMINATE_ASSETS": "Terminare Asset(s)",
         "COMPARE": "Confrontare",
         "QUOTES": "Preventivi",
         "TERM": "Termine",
@@ -428,12 +423,9 @@
         "CONFIRM": "it_IT Confirm",
         "MY_FAVORITES": "it_IT My Favorites",
         "PRICE_ERROR": "it_IT Pricing of your cart has failed, please proceed with either of the following.",
-        "PRICE_PROGRESS": "it_IT Pricing of your cart is in progress, please proceed with either of the following.",
+        "PRICE_PROGRESS": "it_IT Pricing of your cart has timed out.",
         "RETRY":"it_IT Retry",
-        "RETRY_CART":"it_IT Retry pricing the cart",
         "ABANDON":"it_IT Abandon",
-        "ABANDON_CART":"it_IT Abandon the cart",
-        "CLONE_CART":"it_IT Create a copy of the cart",
         "QUOTE_ID": "it_IT Quote ID",
         "EDIT_LAYOUT": "it_IT Edit Layout",
         "ADDITIONAL_INFORMATION": "it_IT Additional Information",
@@ -464,7 +456,15 @@
         "PROCESSING_MESSAGE":"it_IT Your request is being processed.....",
         "TABLE_ACTION_CONFIRMATION_MESSAGE":"it_IT Are you sure you want to {{actionType}} all {{recordCount}} {{objectName}}(s)",
         "NO_MATCHING_ORDERS_FOUND": "it_IT No matching orders found",
-        "NO_MATCHING_QUOTES_FOUND": "it_IT No matching quotes found"    
+        "NO_MATCHING_QUOTES_FOUND": "it_IT No matching quotes found"
+    },
+    "ASSET_ACTIONS":{
+        "AMEND":"it_IT Amend",
+        "BUY_ANOTHER":"it_IT Buy Another",
+        "RENEW": "it_IT Renew",
+        "BUY_MORE": "it_IT Buy More",
+        "TERMINATE": "it_IT Terminate",
+        "TERMINATE_ASSETS": "it_IT Terminate Asset(s)"
     },
     "REVALIDATE_CART": {
         "REVALIDATION_REQUIRED": "Richiesta di riconvalida",
@@ -511,6 +511,9 @@
         "RENEW_SUCCESS": "L'attività di rinnovo è stato aggiunto al tuo carrello."
     },
     "ASSET_LIST": {
+        "ASSET_NAME":"it_IT Asset Name",
+        "ASSET_AMOUNTS_BY_PRICE_TYPE" :"it_IT Asset amounts by price type",
+        "ASSETS_BY_PRICE_TYPE" :"it_IT Assets by price type",
         "SELECTED_ASSETS": "Attività Selezionate",
         "CHARGE_TYPE": "Tipo Di Carica",
         "PRICE_TYPE": "Prezzo Tipo",
@@ -948,6 +951,7 @@
         "PRESENT": "Presente"
     },
     "TABLE": {
+        "ROWS_PER_PAGE":"it_IT Rows per page",
         "SEARCH": "Ricerca",
         "SELECTED": "Selezionato",
         "OF": "Di",

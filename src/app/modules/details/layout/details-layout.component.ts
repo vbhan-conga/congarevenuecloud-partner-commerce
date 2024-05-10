@@ -19,20 +19,17 @@ export class DetailsLayoutComponent implements AfterContentInit {
   @Input() subtitle: string;
   @Input() context: AObject;
   @Input() route: string;
-  @Input() largeContainer:boolean=false;
 
   private activeTabIndex = 0;
 
   hidePrimaryActions: boolean = false;
   hideSecondaryActions: boolean = false;
-  smallScreen: boolean=false;
 
   ngAfterContentInit() {
     this.hidePrimaryActions = get(this, 'primaryActions.nativeElement.children.length', 0) <= 0;
     this.hideSecondaryActions = get(this, 'secondaryActions.nativeElement.children.length', 0) <= 0;
 
     set(this, 'sections.first.active', true);
-    this.onResize()
   }
 
   
@@ -45,17 +42,17 @@ export class DetailsLayoutComponent implements AfterContentInit {
   @HostListener('window:scroll', ['$event'])
   onScroll(event) {
     if (this.headerClass != null && window.pageYOffset < 35) {
-      this.headerClass = 'fixed-top expand';
+      this.headerClass = 'fixed-top  position-fixed expand';
       setTimeout(() => this.headerClass = null, 200);
     } else if (window.pageYOffset >= 35) {
-      this.headerClass = 'fixed-top';
+      this.headerClass = 'fixed-top position-fixed';
     } else {
       this.headerClass = null;
     }
 
     this.setActiveTab();
   }
-  headerClass: 'fixed-top' | 'fixed-top expand' = null;
+  headerClass: 'fixed-top position-fixed' | 'fixed-top  position-fixed expand' = null;
 
   /*
    ScrollTo method scrolls the page to the specified tab content.
@@ -110,13 +107,4 @@ export class DetailsLayoutComponent implements AfterContentInit {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-     if(window.innerWidth <= 430){
-      this.smallScreen=true;
-     }
-     else{
-      this.smallScreen=false;
-     }
-  }
 }

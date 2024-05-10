@@ -7,7 +7,7 @@
   </apt-alert>
 
   <div class="container-fluid p-4" id="checkout-form">
-    <div class="d-flex justify-content-between">
+    <div class="d-lg-flex d-md-flex d-sm-none d-none justify-content-between">
       <h4 class="mb-3 text-muted">{{'CART.CREATE_ORDER' | translate}}</h4>
       <div class="d-flex justify-content-end mb-3">
         <apt-captcha *ngIf="showCaptcha" (onCaptchaSuccess)="captchaSuccess(cart)"></apt-captcha>
@@ -17,6 +17,22 @@
         <div class="d-flex" *ngIf="!showCaptcha">
           <ng-content select=".cancel-button"></ng-content>
           <button class="btn btn-primary btn-block btn-raised" [ladda]="loading" data-style="zoom-in" [disabled]="(disableSubmit || (cart?.LineItems?.length < 1))"
+            (click)="orderPlacement()">
+            <span>{{ 'COMMON.PLACE_ORDER' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="d-lg-none d-md-none d-sm-flex d-flex justify-content-between"> <!-- TODO: Added for demo purpose. Need to revisit with UX team-->
+      <h5 class="mb-3 text-muted">{{'CART.CREATE_ORDER' | translate}}</h5>
+      <div class="d-flex justify-content-end mb-3">
+        <apt-captcha *ngIf="showCaptcha" (onCaptchaSuccess)="captchaSuccess(cart)"></apt-captcha>
+        <button class="btn btn-link btn-sm" [routerLink]="['/carts/active']" [hidden]="loading">
+          {{'COMMON.CANCEL' | translate }}
+        </button>
+        <div class="d-flex" *ngIf="!showCaptcha">
+          <ng-content select=".cancel-button"></ng-content>
+          <button class="btn btn-primary btn-block btn-raised btn-sm" [ladda]="loading" data-style="zoom-in" [disabled]="(disableSubmit || (cart?.LineItems?.length < 1))"
             (click)="orderPlacement()">
             <span>{{ 'COMMON.PLACE_ORDER' | translate }}</span>
           </button>
@@ -93,7 +109,7 @@
 
   <ng-template #confirmationTemplate>
     <div class="modal-header align-items-center d-flex flex-row-reverse p-0 pb-2 mt-3 border-bottom border-secondary">
-      <button type="button" class="close close-button pull-right pr-0" aria-label="Close"
+      <button type="button" class="close close-button pull-right pr-3" aria-label="Close"
         (click)="confirmationModal.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -109,8 +125,10 @@
         [translateParams]="{emailAddress: order?.PrimaryContact?.Email}"></small>
       <h5 class="text-center my-3" [translate]="'DETAILS.GENERATED_ORDER_NUMBER'"
         [translateParams]="{orderName: orderConfirmation?.Name}"></h5>
-      <button class="btn btn-outline-primary w-25 mx-auto" (click)="closeModal()">{{ 'DETAILS.VIEW_YOUR_ORDER' |
+      <button class="d-lg-block d-md-block d-sm-none d-none btn btn-outline-primary w-25 mx-auto" (click)="closeModal()">{{ 'DETAILS.VIEW_YOUR_ORDER' |
         translate }}</button>
+      <button class="d-lg-none d-md-none d-sm-block d-block btn btn-outline-primary w-50 mx-auto" (click)="closeModal()">{{ 'DETAILS.VIEW_YOUR_ORDER' |
+          translate }}</button>
     </div>
   </ng-template>
   <ng-template #noEmail>

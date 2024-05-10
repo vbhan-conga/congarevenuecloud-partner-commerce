@@ -63,6 +63,10 @@ button {
       background: $primary !important;
     }
   }
+  
+btn-text-transform{
+  text-transform:$text-transform-none;
+}
 
   &.chevron,
   &.minus {
@@ -223,7 +227,6 @@ apt-breadcrumb {
   top: 0;
   z-index: 1030;
   width: 100%;
-  margin-top: 0.625rem;
   padding-top: 1rem;
   padding-bottom: 0.625rem;
 
@@ -853,7 +856,6 @@ cc-page-header {
 
 .card-header h5 {
   font-size: $font-size-lg !important;
-  margin-top: 1rem;
   margin-bottom: 0;
 }
 

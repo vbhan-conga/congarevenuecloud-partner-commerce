@@ -1,6 +1,6 @@
-<div class="fixed-top navbar navbar-light bg-light border-bottom py-0">
-  <div class="d-flex align-items-center">
-    <button class="navbar-toggler px-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+<div class="fixed-top navbar navbar-light bg-light border-bottom">
+  <div class="d-flex align-items-center pl-3">
+    <button class="navbar-toggler pl-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       (click)="menuModal.show()">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,29 +16,29 @@
           alt="" srcset="">
       </span>
       <span class="sf-label mb-0 d-lg-block d-md-block d-sm-none d-none">{{storefront?.Name}}</span>
-      <span tooltip="{{storefront?.Name}}" class="sf-label m-0 d-lg-none d-md-none d-sm-block d-block"> {{storefront?.Name | truncate:8}}
+      <span tooltip="{{storefront?.Name}}" class="sf-label m-0 d-lg-none d-md-none d-sm-block d-block"> {{storefront?.Name | truncate:5}}
       </span>
     </ng-container>
   </div>
 
-  <div class="actions d-flex align-items-center">
+  <div class="d-flex align-items-center">
     <apt-product-search [typeAheadLimit]="7"></apt-product-search>
     <apt-mini-cart></apt-mini-cart>
     <ng-container *ngIf="user$ | async as user">
       <div class="d-flex user-action flex-column text-primary align-items-flex-start exclude-border">
         <div dropdown>
           <div dropdown-item class="media">
-            <h4 role="button"
-              class="d-flex justify-content-center align-items-center bg-secondary rounded-circle user-avatar text-white mt-1" (click)="toggleMyAccountDropdown($event)" data-toggle="dropdown" #btnDropdown>
-              {{userInitials}}</h4>
+            <h5 role="button"
+              class="d-flex justify-content-center align-items-center bg-secondary rounded-circle user-avatar text-white m-0" (click)="toggleMyAccountDropdown($event)" data-toggle="dropdown" #btnDropdown>
+              {{userInitials}}</h5>
           </div>
           <div class="dropdown-menu dropdown-menu-right m-0" aria-labelledby="dropdownMenuButton" id="accountMenu"
             [ngClass]="showAccountHome ? 'show' : ''">
             <div class="m-2">
               <div dropdown-item class="media m-2 pb-2">
-                <h4
+                <h5
                   class="d-flex justify-content-center align-items-center bg-secondary rounded-circle user-avatar text-white p-2">
-                  {{userInitials}}</h4>
+                  {{userInitials}}</h5>
                 <div class="media-body ml-3 text-truncate">
                   <h5 class="my-0">{{user?.FirstName}}</h5>
                   <h5 class="my-0">{{user?.LastName}}</h5>
@@ -70,6 +70,9 @@
                 <a href="javascript:void(0)" [routerLink]="['/products']" routerLinkActive="active" class="pt-3 d-lg-none d-md-none d-sm-block d-block">
                  {{'COMMON.PRODUCT_CATALOG' | translate}}
                 </a>
+                <a href="javascript:void(0)" [routerLink]="['/assets']" routerLinkActive="active" class="pt-3">
+                  {{'COMMON.INSTALLED_PRODUCTS' | translate}}
+                 </a>
                 <a href="javascript:void(0)" [routerLink]="['/user']" routerLinkActive="active" class="pt-3 d-lg-none d-md-none d-sm-block d-block">
                   {{'COMMON.MY_ACCOUNT_SETTINGS' | translate}}
                 </a>
@@ -91,7 +94,7 @@
                   [(ngModel)]="cartView.Account" [allowClearableLookups]="false" [spinnerSize]="'small'"
                   (ngModelChange)="updateAccountInfo($event)">
                 </apt-input-field>
-                <button *ngIf="!loading" class="btn btn-primary btn-raised ladda-button btn-sm ml-3 mb-3 update-account"
+                <button *ngIf="!loading" class="btn btn-primary btn-raised ladda-button btn-sm ml-3 mb-3 py-2 update-account"
                   (click)="saveAccountDetails(cartView.Account)"
                   [disabled]="cartView?.Account?.Id === cart?.Account?.Id">
                   {{'COMMON.UPDATE' | translate}}

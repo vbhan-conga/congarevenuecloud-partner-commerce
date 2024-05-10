@@ -1,4 +1,4 @@
-<app-detail [title]="viewState?.product?.Name" [subtitle]="viewState?.product?.ProductCode" [largeContainer]="true"
+<app-detail [title]="viewState?.product?.Name" [subtitle]="viewState?.product?.ProductCode"
     [context]="viewState?.product" *ngIf="viewState$ | async as viewState; else loading">
     <div class="constraintAlerts">
         <apt-alert [record]="activeCart" [autoRun]="false" [showPriceError]="priceProgress"></apt-alert>
@@ -7,7 +7,7 @@
 
     <div class="primary-actions d-lg-block d-md-block d-sm-none d-none">
         <form class="d-flex">
-            <div class="form-group my-0 mr-lg-5 mr-md-5 mr-sm-4 mr-4">
+            <div class="form-group my-0 mr-lg-5 mr-md-5 mr-sm-4 mr-4 text-nowrap">
                 <small class="mb-2 d-block"> {{'PRODUCT_DETAILS.STANDARD_PRICE' | translate}} </small>
                 <h5>
                     <apt-price [record]="viewState?.product" type="list"></apt-price>
@@ -34,7 +34,7 @@
         <!-- Simple Product Controls -->
         <form class="d-flex justify-content-end"
             *ngIf="!viewState?.product?.HasAttributes && !viewState?.product?.HasOptions; else complex">
-            <div class="form-group mx-3 my-0 d-flex align-items-center">
+            <div class="form-group mx-3 my-0 d-flex align-items-center w-50">
                 <span class="mr-3"> {{'COMMON.QUANTITY' | translate}} </span>
                 <input type="number" min="1" class="form-control quantity" [(ngModel)]="viewState.quantity"
                     name="quantity" />
@@ -43,7 +43,7 @@
                 <apt-add-to-cart [showQuantityControls]="false" (onAddToCart)="onAddToCart($event)"
                     [configurationEnabled]="false" [quantity]="viewState.quantity" [aboEnabled]="false"
                     [cartItems]="(cartItemList?.length > 0) ? cartItemList : null"
-                    [product]="product ? product: viewState?.product" [btnClass]="'btn-primary btn-raised px-3 py-2'"
+                    [product]="product ? product: viewState?.product" [btnClass]="'btn-primary btn-raised px-3 py-2 text-nowrap'"
                     [disabled]="configurationPending">
                 </apt-add-to-cart>
             </div>
@@ -72,7 +72,7 @@
 
                 <ng-template #newProduct>
                     <div class="d-flex justify-content-end">
-                        <div class="form-group mx-3 my-0 d-flex align-items-center">
+                        <div class="form-group mx-3 my-0 d-flex align-items-center w-50">
                             <span class="mr-3"> {{'COMMON.QUANTITY' | translate}} </span>
                             <input type="number" min="1" class="form-control quantity" [(ngModel)]="viewState.quantity"
                                 (change)="changeProductQuantity(viewState.quantity)" name="quantity" />
@@ -132,7 +132,7 @@
                 <apt-add-to-cart [showQuantityControls]="false" (onAddToCart)="onAddToCart($event)"
                     [configurationEnabled]="false" [quantity]="viewState.quantity" [aboEnabled]="false"
                     [cartItems]="(cartItemList?.length > 0) ? cartItemList : null"
-                    [product]="product ? product: viewState?.product" [btnClass]="'btn-primary btn-raised px-3 py-2'"
+                    [product]="product ? product: viewState?.product" [btnClass]="'btn-primary btn-raised px-3 py-2 text-nowrap'"
                     [disabled]="configurationPending" [discovery]="true">
                 </apt-add-to-cart>
             </div>

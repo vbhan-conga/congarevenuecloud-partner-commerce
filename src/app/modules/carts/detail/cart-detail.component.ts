@@ -95,7 +95,7 @@ export class CartDetailComponent implements OnInit {
         const cartItems = plainToClass(CartItem, get(cartInfo, 'LineItems'));
         return of({
           cart: cartInfo,
-          lineItems: LineItemService.groupItems(cartItems as unknown as Array<CartItem>),
+          lineItems: LineItemService.groupItems(cartItems as unknown as CartItem[]),
           orderOrQuote: isNil(get(cartInfo, 'Order')) ? get(cartInfo, 'Proposald') : get(cartInfo, 'Order'),
           productList: productsInfo
         } as ManageCartState);

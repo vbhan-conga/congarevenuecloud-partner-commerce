@@ -39,6 +39,10 @@ import { environment } from '../environments/environment';
             loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
           },
           {
+            path: 'assets',
+            loadChildren: () => import('./modules/assets/assets.module').then(m => m.AssetsModule)
+          },
+          {
             path: 'dashboard',
             loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
           },

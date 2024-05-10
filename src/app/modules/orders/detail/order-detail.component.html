@@ -1,5 +1,6 @@
 <app-detail *ngIf="order$ | async as order; else loading" [context]="order" [route]="'orders'">
-  <apt-alert [record]="orderConfirmation" message="ERROR.UPDATE_ORDER_FAILED_ON_DETAILS_PAGE" [showOnlyMessage]="false">
+  <apt-alert [record]="orderConfirmation" message="ERROR.UPDATE_ORDER_FAILED_ON_DETAILS_PAGE" [showOnlyMessage]="false"
+    [showPriceError]="false">
   </apt-alert>
   <div class="btn-group secondary-actions align-self-stretch" role="group" [ngSwitch]="order?.Status" [tooltip]="
       order.hasErrors ? ('DETAILS.MISSING_REQ_FIELDS' | translate) : ''
@@ -10,7 +11,7 @@
         [disabled]="order.hasErrors">
         {{ "ACTION_BAR.CONFIRM_ORDER" | translate }}
       </button>
-      <apt-generate-document [record]="order" class="ml-auto pt-2 d-lg-block d-md-block d-none d-sm-none"
+      <apt-generate-document [record]="order" class="ml-auto d-lg-block d-md-block d-none d-sm-none"
         (onStatusUpdate)="onGenerateOrder()">
       </apt-generate-document>
     </ng-container>
@@ -58,15 +59,15 @@
       <span class="badge badge-primary ml-3 px-3 py-1" *ngIf="order?.Status">{{ order?.Status }}</span>
 
       <div class="d-sm-block d-block ml-auto d-md-none d-lg-none pt-2"
-          *ngIf="order?.Status === 'Draft' || order?.Status === 'Generated' || order?.Status === 'Presented'">
-          <div class="dropdown">
-            <a class="fa fa-ellipsis-v dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <ng-container *ngTemplateOutlet="orderActions"></ng-container>
-            </div>
+        *ngIf="order?.Status === 'Draft' || order?.Status === 'Generated' || order?.Status === 'Presented'">
+        <div class="dropdown">
+          <a class="fa fa-ellipsis-v dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <ng-container *ngTemplateOutlet="orderActions"></ng-container>
           </div>
+        </div>
       </div>
 
       <div *ngIf="order?.Proposal as proposal" class="ml-auto d-lg-block d-md-block d-sm-none d-none">
@@ -84,7 +85,7 @@
 
   <app-detail-section [title]="'DETAILS.ORDER_SUMMARY' | translate">
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-8 pl-lg-3 pl-md-3">
         <div class="card">
           <div class="card-header">
             <h5>
@@ -93,7 +94,7 @@
           </div>
           <div class="card-body">
             <div>
-              <apt-alert [record]="order"></apt-alert>
+              <apt-alert [record]="order" [showPriceError]="false"></apt-alert>
             </div>
             <div class="row">
               <div class="flex-shrink-1 col-md-4 mb-2">
@@ -162,7 +163,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-4 pt-lg-0 pt-md-0 pt-sm-4 pt-4">
         <apt-price-summary [record]="order" [page]="'orders'" [showStatus]="true"></apt-price-summary>
       </div>
     </div>
@@ -199,7 +200,7 @@
   <app-detail-section [title]="'DETAILS.ATTACHMENTS' | translate" class="mt-4">
     <div class="card" #attachmentSection *ngIf="attachmentList$ | async as attachmentList; else loading">
       <div class="card-header">
-        <h5>
+        <h5 class="mt-0">
           {{ "DETAILS.ATTACHMENTS" | translate }}
 
           <span *ngIf="attachmentList?.length > 0">({{ attachmentList?.length }})</span>
@@ -208,11 +209,11 @@
 
       <div class="card-body">
         <div class="row">
-          <div class="col-12 col-md-7 attachment-container">
+          <div class="col-12 col-md-6 d-lg-block d-md-block d-sm-none d-none border-right attachment-container">
             <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
               <div class="table-container overflow-auto">
                 <table class="table table-sm">
-                  <thead class = "position-sticky bg-white">
+                  <thead class="position-sticky bg-white">
                     <tr>
                       <th scope="col">#</th>
 
@@ -299,8 +300,54 @@
               </div>
             </ng-template>
           </div>
+          <div class="col-12 col-md-6 d-lg-none d-md-none d-sm-block d-block pb-3 attachment-container">
+            <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
+              <div class="overflow-auto table-container">
+                <table class="table table-sm">
+                  <thead class="position-sticky bg-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="Name"
+                          [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="CreatedBy"
+                          [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata"
+                          field="CreatedDate" [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let attachment of attachmentList; let i = index">
+                      <th scope="row">{{i + 1}}</th>
+                      <td>
+                        <a class="text-underline" (click)="downloadAttachment(attachment?.DocumentMetadata?.Id)"
+                          target="_self">{{attachment?.DocumentMetadata?.Name}}</a>
+                      </td>
+                      <td>{{'COMMON.ATTACHMENT_DETAILS.BY' | translate}}
+                        {{attachment?.DocumentMetadata?.CreatedBy.Name}}</td>
+                      <td>{{attachment?.DocumentMetadata?.CreatedDate | date:'short'}}</td>
+                      <td><button class="btn btn-link p-0 m-0" (click)="deleteAttachment(attachment)"
+                          [ladda]="attachment?.DocumentMetadata?._metadata?.deleting" data-style="zoom-in"
+                          data-spinner-color="black">
+                          <span class="fa fa-trash"></span>
+                        </button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-container>
+            <ng-template #emptyAttachments>
+              <div class="d-flex align-items-center justify-content-center flex-column h-100 text-muted">
+                <i class="fa fa-4x fa-file-o mb-2"></i>
+                {{'COMMON.ATTACHMENT_DETAILS.NO_ATTACHMENTS' | translate}}
+              </div>
+            </ng-template>
+          </div>
 
-          <div class="col-lg-5 col-md-5 col-sm-12 col-12 pt-sm-3 pt-3 pt-lg-0 pt-md-0">
+          <div class="col-12 col-md-6">
             <form (ngSubmit)="uploadAttachment(order.Id)">
               <label class="font-weight-bold">{{
                 "COMMON.ATTACHMENT_DETAILS.TITLE" | translate
@@ -314,8 +361,7 @@
                     "COMMON.ATTACHMENT_DETAILS.INPUT_LABEL" | translate
                     }}</span><span class="pl-1 text-underline cursor-pointer">{{
                     "COMMON.ATTACHMENT_DETAILS.BROWSE" | translate
-                  }}</span></label
-                >
+                    }}</span></label>
                 <input #fileInput id="browse" class="d-none p-5" type="file" (change)="fileChange($event)" />
               </div>
 
@@ -327,22 +373,22 @@
                   }}
                 </p>
               </div>
-              
+
               <div class="mt-2" *ngIf="file==null && isSupportedFileType && supportedFileTypes?.length">
                 <p>
                   {{
-                    "COMMON.ATTACHMENT_DETAILS.SUPPORTED_FILE_TYPES"
-                    | translate:{supportedFileTypes:supportedFileTypes}
-                    }}
+                  "COMMON.ATTACHMENT_DETAILS.SUPPORTED_FILE_TYPES"
+                  | translate:{supportedFileTypes:supportedFileTypes}
+                  }}
                 </p>
               </div>
 
               <div class="mt-2" *ngIf="!isSupportedFileType && supportedFileTypes?.length">
                 <p class="text-danger">
                   {{
-                    "COMMON.ATTACHMENT_DETAILS.UNSUPPORTED_FILE_TYPE_ERROR"
-                    | translate:{supportedFileTypes:supportedFileTypes}
-                    }}
+                  "COMMON.ATTACHMENT_DETAILS.UNSUPPORTED_FILE_TYPE_ERROR"
+                  | translate:{supportedFileTypes:supportedFileTypes}
+                  }}
                 </p>
               </div>
               <div class="form-group">
@@ -375,7 +421,8 @@
                 </button>
 
                 <button class="btn btn-primary btn-primary" type="submit"
-                  [disabled]="(!isSupportedFileType ||hasSizeError && file != null) || !file" [ladda]="attachmentsLoader">
+                  [disabled]="(!isSupportedFileType ||hasSizeError && file != null) || !file"
+                  [ladda]="attachmentsLoader">
                   {{ "COMMON.UPLOAD" | translate }}
                 </button>
               </div>

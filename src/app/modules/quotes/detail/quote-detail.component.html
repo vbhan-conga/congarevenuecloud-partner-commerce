@@ -69,7 +69,7 @@
 
   <app-detail-section [title]="'DETAILS.QUOTE_SUMMARY' | translate">
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-8 pl-lg-3 pl-md-3">
         <div class="card">
           <div class="card-header">
             <h5>{{'DETAILS.QUOTE_SUMMARY' | translate}}</h5>
@@ -136,7 +136,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-4 pt-lg-0 pt-md-0 pt-sm-4 pt-4">
         <apt-price-summary [record]="quote" [page]="'quotes'"></apt-price-summary>
       </div>
     </div>
@@ -191,7 +191,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-12 col-md-7 border-right attachment-container">
+          <div class="col-12 col-md-6 d-lg-block d-md-block d-sm-none d-none border-right attachment-container">
             <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
               <div class="overflow-auto table-container">
                 <table class="table table-sm">
@@ -245,7 +245,53 @@
               </div>
             </ng-template>
           </div>
-          <div class="col-12 col-md-5">
+          <div class="col-12 col-md-6 d-lg-none d-md-none d-sm-block d-block pb-3 attachment-container">
+            <ng-container *ngIf="attachmentList?.length > 0; else emptyAttachments">
+              <div class="overflow-auto table-container">
+                <table class="table table-sm">
+                  <thead class="position-sticky bg-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="Name"
+                          [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="CreatedBy"
+                          [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata"
+                          field="CreatedDate" [labelOnly]="true">
+                        </apt-output-field></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let attachment of attachmentList; let i = index">
+                      <th scope="row">{{i + 1}}</th>
+                      <td>
+                        <a class="text-underline" (click)="downloadAttachment(attachment?.DocumentMetadata?.Id)"
+                          target="_self">{{attachment?.DocumentMetadata?.Name}}</a>
+                      </td>
+                      <td>{{'COMMON.ATTACHMENT_DETAILS.BY' | translate}}
+                        {{attachment?.DocumentMetadata?.CreatedBy.Name}}</td>
+                      <td>{{attachment?.DocumentMetadata?.CreatedDate | date:'short'}}</td>
+                      <td><button class="btn btn-link p-0 m-0" (click)="deleteAttachment(attachment)"
+                          [ladda]="attachment?.DocumentMetadata?._metadata?.deleting" data-style="zoom-in"
+                          data-spinner-color="black">
+                          <span class="fa fa-trash"></span>
+                        </button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-container>
+            <ng-template #emptyAttachments>
+              <div class="d-flex align-items-center justify-content-center flex-column h-100 text-muted">
+                <i class="fa fa-4x fa-file-o mb-2"></i>
+                {{'COMMON.ATTACHMENT_DETAILS.NO_ATTACHMENTS' | translate}}
+              </div>
+            </ng-template>
+          </div>
+          <div class="col-12 col-md-6">
             <form (ngSubmit)="uploadAttachment(quote.Id)">
               <label class="font-weight-bold">{{'COMMON.ATTACHMENT_DETAILS.TITLE' | translate}}</label>
               <div class="file-section d-flex align-items-center justify-content-center border-secondary file-upload"
