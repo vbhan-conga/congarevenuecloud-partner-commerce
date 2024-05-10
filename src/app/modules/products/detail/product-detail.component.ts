@@ -39,13 +39,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   currentQty: number;
   relatedTo: CartItem;
   cart: Cart;
-  priceInProgress: boolean = false;
   unsavedConfiguration: boolean = false;
   disabled: boolean = false;
   handleredirect: boolean = true;
   activeCart: Cart = null;
   configurationPending: boolean;
   discovery: string;
+  priceProgress: boolean = false;
 
   @ViewChild(ProductConfigurationSummaryComponent, { static: false })
   configSummaryModal: ProductConfigurationSummaryComponent;
@@ -119,6 +119,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.relatedTo = get(this.viewState$, 'value.relatedTo');
       this.product = get(response, 'product') ? get(response, 'product') : this.product;
       this.cartItemList = get(response, 'itemList');
+      this.priceProgress= get(response, 'priceProgress');
       if (!isNil(this.cartItemList)) this.primaryLineItem = find(this.cartItemList, (r) => get(r, 'LineType') == 'Product/Service');
     }));
   }
@@ -154,11 +155,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   changeProductQuantity(newQty: any) {
-    if (this.cartItemList && this.cartItemList.length > 0)
-      forEach(this.cartItemList, c => {
-        if (c.LineType === 'Product/Service') c.Quantity = newQty;
-        this.subscriptions.push(this.productConfigurationService.changeProductQuantity(newQty, c).subscribe(() => { }));
-      });
+    if (this.cartItemList && this.cartItemList.length > 0 && !isNil(get(this.viewState$,'value.relatedTo'))){
+      let item  = find(this.cartItemList, c => c.LineType === 'Product/Service');
+      item.Quantity = newQty;
+      this.subscriptions.push(this.productConfigurationService.changeProductQuantity(newQty, item).subscribe(() => { }));
+    }
   }
 
   changeProductToOptional(event: boolean) {

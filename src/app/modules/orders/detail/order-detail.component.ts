@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy, ChangeDetectorRef, Aft
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { filter, flatMap, map, switchMap, mergeMap, startWith, take, tap } from 'rxjs/operators';
-import { get, set, indexOf, first, sum, isEmpty, cloneDeep, filter as rfilter, find, compact, uniq, defaultTo } from 'lodash';
+import { get, set, indexOf, first, sum, isEmpty, cloneDeep, filter as rfilter, find, compact, uniq, defaultTo, isNil } from 'lodash';
 import { ApiService, FilterOperator } from '@congarevenuecloud/core';
 import {
   Order, Quote, OrderLineItem, OrderService, UserService,
@@ -79,9 +79,9 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
   uploadFileList: any;
 
-  isSupportedFileType:boolean = true;
+  isSupportedFileType: boolean = true;
 
-  supportedFileTypes:string;
+  supportedFileTypes: string;
 
   lookupOptions: LookupOptions = {
     primaryTextField: 'Name',
@@ -91,7 +91,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
 
   isPrivate: boolean = false;
   maxFileSizeLimit = 29360128;
-  cartRecord: Cart;
+  cartRecord: Cart = new Cart();
 
   constructor(private activatedRoute: ActivatedRoute,
     private orderService: OrderService,
@@ -123,7 +123,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     }));
     this.subscriptions.push(this.attachmentService.getSupportedAttachmentType().pipe(
       take(1)
-    ).subscribe((data: string)=>{
+    ).subscribe((data: string) => {
       this.supportedFileTypes = data;
     }))
   }
@@ -141,28 +141,29 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
         })
       );
 
-    this.orderSubscription = combineLatest(order$.pipe(startWith(null)), this.orderService.getMyOrder())
-      .pipe(map(([order, confirmOrder]) => {
-        if (!order) return;
+    this.orderSubscription = combineLatest([order$, this.orderService.getMyOrder()])
+      .pipe(
+        switchMap(([order, confirmOrder]) => {
+          if (isNil(order)) return;
 
-        if (get(confirmOrder, "Id") === get(order, "Id")) {
-          confirmOrder.set("onDetailPage", true);
-          this.orderConfirmation = cloneDeep(confirmOrder);
-        }
+          if (get(confirmOrder, "Id") === get(order, "Id")) {
+            confirmOrder.set("onDetailPage", true);
+            this.orderConfirmation = cloneDeep(confirmOrder);
+          }
+          if (order?.Status === 'Partially Fulfilled' && indexOf(this.orderStatusSteps, 'Fulfilled') > 0)
+            this.orderStatusSteps[indexOf(this.orderStatusSteps, 'Fulfilled')] = 'Partially Fulfilled';
 
-        if (order.Status === 'Partially Fulfilled' && indexOf(this.orderStatusSteps, 'Fulfilled') > 0)
-          this.orderStatusSteps[indexOf(this.orderStatusSteps, 'Fulfilled')] = 'Partially Fulfilled';
+          if (order?.Status === 'Fulfilled' && indexOf(this.orderStatusSteps, 'Partially Fulfilled') > 0)
+            this.orderStatusSteps[indexOf(this.orderStatusSteps, 'Partially Fulfilled')] = 'Fulfilled';
 
-        if (order.Status === 'Fulfilled' && indexOf(this.orderStatusSteps, 'Partially Fulfilled') > 0)
-          this.orderStatusSteps[indexOf(this.orderStatusSteps, 'Partially Fulfilled')] = 'Fulfilled';
-
-        order.OrderLineItems = get(order, 'OrderLineItems');
-        this.orderLineItems$.next(LineItemService.groupItems(order.OrderLineItems));
-        this.cartService.fetchCartStatus(get(get(first(this.orderLineItems$.value), 'MainLine.Configuration'), 'Id')).pipe(take(1)).subscribe(c => {
-          this.cartRecord = c;
-        })
-        return this.updateOrder(order);
-      })).subscribe();
+          order.OrderLineItems = get(order, 'OrderLineItems');
+          this.orderLineItems$.next(LineItemService.groupItems(order.OrderLineItems));
+          set(this.cartRecord, 'Id', get(get(first(this.orderLineItems$.value), 'MainLine.Configuration'), 'Id'));
+          return combineLatest([of(order), this.cartService.addAdjustmentInfoToLineItems(this.cartRecord?.Id)]);
+        }),).subscribe(([res, items]) => {
+          this.cartRecord.LineItems = items;
+          this.updateOrder(res);
+        });
     this.getAttachments();
   }
 
@@ -371,13 +372,13 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
       this.uploadFileList = event.target.files;
       this.hasFileSizeExceeded(this.uploadFileList, this.maxFileSizeLimit);
       this.file = fileList[0];
-      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList,this.supportedFileTypes);
+      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList, this.supportedFileTypes);
     }
   }
-  
-   /**
-   * @ignore
-   */
+
+  /**
+  * @ignore
+  */
   onDragFile(event) {
     event.preventDefault();
   }
@@ -392,7 +393,7 @@ export class OrderDetailComponent implements OnInit, OnDestroy, AfterViewChecked
     if (fileList.length > 0) {
       this.uploadFileList = event.dataTransfer.files;
       this.hasFileSizeExceeded(this.uploadFileList, event.target.dataset.maxSize);
-      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList,this.supportedFileTypes);
+      this.isSupportedFileType = this.attachmentService.checkSupportedFileType(this.uploadFileList, this.supportedFileTypes);
     } else {
       let f = [];
       for (let i = 0; i < itemList.length; i++) {
