@@ -140,6 +140,7 @@ export class QuoteDetailComponent implements OnInit, OnDestroy {
         take(1),
         switchMap(([lineItems, quote]) => {
           this.cartRecord.LineItems = lineItems;
+          this.cartRecord.BusinessObjectType = 'Proposal';
           return this.updateQuoteValue(quote);
         })
       ).subscribe());

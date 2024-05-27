@@ -15,7 +15,7 @@
         <div class="form-group">
           <apt-input-field [entity]="quote" [field]="'ShipToAccount'" [(ngModel)]="quote.ShipToAccount"
             (ngModelChange)="shipToChange()"></apt-input-field>
-          <small class="px-3 font-italic d-block" *ngIf="shipToAccount$ | async as shipToAccount">
+          <small class="font-italic d-block" *ngIf="shipToAccount$ | async as shipToAccount">
             <apt-address [ngModel]="quote?.ShipToAccount" [readonly]="true" type="Shipping" [showLabel]="false">
             </apt-address>
           </small>
@@ -23,7 +23,7 @@
         <div class="form-group">
           <apt-input-field [entity]="quote" [field]="'BillToAccount'" [(ngModel)]="quote.BillToAccount"
             (ngModelChange)="billToChange()"> </apt-input-field>
-          <small class="px-3 font-italic d-block" *ngIf="billToAccount$ | async as billToAccount">
+          <small class="font-italic d-block" *ngIf="billToAccount$ | async as billToAccount">
             <apt-address [ngModel]="quote?.BillToAccount" [readonly]="true" type="Billing" [showLabel]="false">
             </apt-address>
           </small>

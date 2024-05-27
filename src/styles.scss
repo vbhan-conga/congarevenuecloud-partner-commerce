@@ -223,7 +223,6 @@ apt-breadcrumb {
   top: 0;
   z-index: 1030;
   width: 100%;
-  margin-top: 0.625rem;
   padding-top: 1rem;
   padding-bottom: 0.625rem;
 
@@ -1208,7 +1207,6 @@ apt-line-item-menu {
     text-overflow: ellipsis;
   }
 
-  // TODO: This will be taken out once related categories is moved as a modal
   .category-list-container {
     .card-body {
       padding-bottom: 0rem !important;
