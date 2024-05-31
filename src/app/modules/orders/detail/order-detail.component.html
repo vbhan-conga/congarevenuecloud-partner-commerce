@@ -84,7 +84,7 @@
 
   <app-detail-section [title]="'DETAILS.ORDER_SUMMARY' | translate">
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-8 pl-lg-3 pl-md-3">
         <div class="card">
           <div class="card-header">
             <h5>
@@ -199,7 +199,7 @@
   <app-detail-section [title]="'DETAILS.ATTACHMENTS' | translate" class="mt-4">
     <div class="card" #attachmentSection *ngIf="attachmentList$ | async as attachmentList; else loading">
       <div class="card-header">
-        <h5>
+        <h5 class="mt-0">
           {{ "DETAILS.ATTACHMENTS" | translate }}
 
           <span *ngIf="attachmentList?.length > 0">({{ attachmentList?.length }})</span>
