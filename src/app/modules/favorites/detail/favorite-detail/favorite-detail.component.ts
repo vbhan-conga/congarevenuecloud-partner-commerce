@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { get, set, isEmpty, forEach } from 'lodash';
-import { Favorite, FavoriteService, LineItemService, ItemGroup, User, UserService, FavoriteScope ,Cart, CartService ,CartItem} from '@congarevenuecloud/ecommerce';
+import { get, set, isEmpty, forEach, omit, map as _map } from 'lodash';
+import { Favorite, FavoriteService, LineItemService, ItemGroup, User, UserService, FavoriteScope, Cart, CartService, CartItem } from '@congarevenuecloud/ecommerce';
 import { ExceptionService } from '@congarevenuecloud/elements';
 import { plainToClass } from 'class-transformer';
 @Component({
@@ -17,7 +17,7 @@ export class FavoriteDetailComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute,
     private favoriteService: FavoriteService,
     private userService: UserService,
-    private cartService:CartService,
+    private cartService: CartService,
     private exceptionService: ExceptionService) { }
 
   favorite$: BehaviorSubject<Favorite> = new BehaviorSubject<Favorite>(null);
@@ -30,7 +30,7 @@ export class FavoriteDetailComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = false;
 
-  cart:Cart;
+  cart: Cart;
 
   favoriteScopes = [FavoriteScope.Private, FavoriteScope.Public];
 
@@ -71,12 +71,13 @@ export class FavoriteDetailComponent implements OnInit, OnDestroy {
 
   private getFavoriteItems(configurationId: string) {
     this.subscriptions.push(this.favoriteService.getFavoriteConfguration(configurationId)
-    .subscribe(res => {
-      this.cart = res;
-      const cartItems = plainToClass(CartItem, get(res,'Items'), { ignoreDecorators: true });
-      const lines = LineItemService.groupItems(cartItems as unknown as CartItem[]);
-      this.lineItems$.next(lines);
-    }));
+      .subscribe(res => {
+        this.cart = res;
+        const cartItems = plainToClass(CartItem, get(res, 'Items'), { ignoreDecorators: true });
+        let lines = LineItemService.groupItems(cartItems as unknown as CartItem[]);
+        lines = _map(lines, obj => omit(obj, ['MainLine.IncentiveAdjustmentAmount']) as ItemGroup);
+        this.lineItems$.next(lines);
+      }));
   }
 
   ngOnDestroy() {

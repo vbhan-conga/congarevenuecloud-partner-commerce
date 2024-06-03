@@ -15,6 +15,8 @@
         class="list-group-item list-group-item-action py-2 border-0">{{'COMMON.MY_CARTS' | translate}}</a>
       <a href="javascript:void(0)" *ngIf="showFavorites$ | async" [routerLink]="['/favorites']" routerLinkActive="active"
         class="list-group-item list-group-item-action py-2 border-0">{{'COMMON.MY_FAVORITES' | translate}}</a>
+      <a href="javascript:void(0)" [routerLink]="['/assets']" routerLinkActive="active"
+        class="list-group-item list-group-item-action py-2 border-0">{{'COMMON.INSTALLED_PRODUCTS' | translate}}</a>
       <a href="javascript:void(0)" [routerLink]="['/products']" routerLinkActive="active"
         class="list-group-item list-group-item-action py-2 border-0">{{'COMMON.PRODUCT_CATALOG' | translate}}</a>
       <a href="javascript:void(0)" [routerLink]="['/user']" routerLinkActive="active"

@@ -1,6 +1,6 @@
 <div class="fixed-top navbar navbar-light bg-light border-bottom">
-  <div class="d-flex align-items-center">
-    <button class="navbar-toggler px-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+  <div class="d-flex align-items-center pl-3">
+    <button class="navbar-toggler pl-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       (click)="menuModal.show()">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -70,6 +70,9 @@
                 <a href="javascript:void(0)" [routerLink]="['/products']" routerLinkActive="active" class="pt-3 d-lg-none d-md-none d-sm-block d-block">
                  {{'COMMON.PRODUCT_CATALOG' | translate}}
                 </a>
+                <a href="javascript:void(0)" [routerLink]="['/assets']" routerLinkActive="active" class="pt-3">
+                  {{'COMMON.INSTALLED_PRODUCTS' | translate}}
+                 </a>
                 <a href="javascript:void(0)" [routerLink]="['/user']" routerLinkActive="active" class="pt-3 d-lg-none d-md-none d-sm-block d-block">
                   {{'COMMON.MY_ACCOUNT_SETTINGS' | translate}}
                 </a>

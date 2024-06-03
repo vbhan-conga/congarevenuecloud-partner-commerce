@@ -387,11 +387,7 @@
         "NO": "No",
         "EMPTY": "- Empty -",
         "YOU_MAY_ALSO_LIKE": "You may also like",
-        "RENEW": "Renew",
-        "BUY_MORE": "Buy More",
         "CHANGE_CONFIGURATION": "Change Configuration",
-        "TERMINATE": "Terminate",
-        "TERMINATE_ASSETS": "Terminate Asset(s)",
         "COMPARE": "Compare",
         "QUOTES": "Quotes",
         "TERM": "Term",
@@ -493,6 +489,14 @@
         "NO_MATCHING_ORDERS_FOUND": "No matching orders found",
         "NO_MATCHING_QUOTES_FOUND": "No matching quotes found"
     },
+    "ASSET_ACTIONS":{
+        "AMEND":"Amend",
+        "BUY_ANOTHER":"Buy Another",
+        "RENEW": "Renew",
+        "BUY_MORE": "Buy More",
+        "TERMINATE": "Terminate",
+        "TERMINATE_ASSETS": "Terminate Asset(s)"
+    },
     "REVALIDATE_CART": {
         "REVALIDATION_REQUIRED": "Revalidation required",
         "REVALIDATION_REQUIRED_MSG": "The configuration of the following items in your cart has changed and need to be revalidated",
@@ -538,6 +542,9 @@
         "RENEW_SUCCESS": "The asset renewal has been added to your cart."
     },
     "ASSET_LIST": {
+        "ASSET_NAME":"Asset Name",
+        "ASSET_AMOUNTS_BY_PRICE_TYPE" :"Asset amounts by price type",
+        "ASSETS_BY_PRICE_TYPE" :"Assets by price type",
         "SELECTED_ASSETS": "Selected Assets",
         "CHARGE_TYPE": "Charge Type",
         "PRICE_TYPE": "Price Type",
@@ -990,6 +997,7 @@
         "PRESENT": "Present"
     },
     "TABLE": {
+        "ROWS_PER_PAGE":"Rows per page",
         "SEARCH": "Search",
         "SELECTED": "Selected",
         "OF": "of",
