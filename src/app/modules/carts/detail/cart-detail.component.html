@@ -155,7 +155,7 @@
                       trackBy: trackById
                     ">
                         <apt-line-item-table-row *ngIf="!item.MainLine?._metadata?.hide" [index]="i" [cart]="view?.cart"
-                          [parent]="item.MainLine" [children]="item.SecondaryLines" [readOnly]="readOnly"
+                          [parent]="item.MainLine" [children]="item.SecondaryLines" [readOnly]="readOnly" [showCheckbox]="!item?.MainLine?.AssetLineItem"
                           [editableFields]="false">
                         </apt-line-item-table-row>
                       </ng-container>

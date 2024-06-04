@@ -3,9 +3,9 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { get, isNil, isEmpty, toString, toNumber, set, remove, isEqual } from 'lodash';
 import { Observable, of, BehaviorSubject, Subscription, combineLatest, empty } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, take } from 'rxjs/operators';
 import { FilterOperator } from '@congarevenuecloud/core';
-import { Category, ProductService, ProductResult, PreviousState, FieldFilter, AccountService, CategoryService, Product, FacetFilter, FacetFilterPayload, CartService } from '@congarevenuecloud/ecommerce';
+import { Category, ProductService, ProductResult, PreviousState, FieldFilter, AccountService, CategoryService, Product, FacetFilter, FacetFilterPayload, CartService, StorefrontService } from '@congarevenuecloud/ecommerce';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -21,6 +21,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sortField: string = 'Name';
   productFamilyFilter: Array<FieldFilter>;
   subCategories: Array<Category> = [];
+  enableOneTime$:Observable<boolean>;
 
   searchString: string = null;
   data$: BehaviorSubject<ProductResult> = new BehaviorSubject<ProductResult>(null);
@@ -43,7 +44,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   };
 
   constructor(private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private categoryService: CategoryService,
-    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService) { }
+    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService,
+    private storefrontService:StorefrontService) { }
 
   ngOnDestroy() {
     if (!isNil(this.subscription))
@@ -65,6 +67,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.paginationButtonLabels.next = val['NEXT'];
       this.paginationButtonLabels.last = val['LAST'];
     });
+    this.enableOneTime$ = this.storefrontService.isOneTimeChangeEnabled();
   }
 
   getResults() {

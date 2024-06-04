@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-
+import {AssetActionLabels} from '@congarevenuecloud/ecommerce';
 
 @Component({
   selector: 'app-asset-action-filter',
@@ -38,7 +38,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
                 [checked]="value === 'Renew'"
               >
               <label class="custom-control-label pt-1" for="renew">
-                {{'ASSET_ACTIONS.RENEW' | translate}}
+                {{labels?.renewLabel|translate}}
               </label>
             </div>
           </li>
@@ -55,7 +55,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
                 [checked]="value === 'Change Configuration'"
               >
               <label class="custom-control-label pt-1" for="changeConfiguration">
-                {{'ASSET_ACTIONS.AMEND' | translate}}
+                {{labels?.amendLabel |translate}}
               </label>
             </div>
           </li>
@@ -71,7 +71,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
                 (change)="handleChange($event)"
                 [checked]="value === 'Terminate'" >
               <label class="custom-control-label pt-1" for="terminate">
-                {{'ASSET_ACTIONS.TERMINATE' | translate}}
+                {{labels?.terminateLabel|translate}}
               </label>
             </div>
           </li>
@@ -87,7 +87,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
                 (change)="handleChange($event)"
                 [checked]="value === 'Buy More'">
               <label class="custom-control-label pt-1" for="buyMore">
-                {{'ASSET_ACTIONS.BUY_MORE' | translate}}
+                {{labels?.buyMoreLabel|translate}}
               </label>
             </div>
           </li>
@@ -101,7 +101,10 @@ export class AssetActionFilterComponent {
    * The property specifies the asset action value. defaulted to 'All' if not provided.
    */
   @Input() value: string = 'All';
-
+  /**
+   * Labels for asset actions
+   */
+  @Input() labels:AssetActionLabels;
   /**
    * Event emitter for the asset action value of the filter.
    */

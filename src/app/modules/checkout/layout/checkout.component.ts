@@ -150,7 +150,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     ).subscribe(orderResponse => {
       this.loading = false;
       this.orderConfirmation = orderResponse;
-      this.updateOrder();
+      this.onOrderConfirmed();
     },
       err => {
         this.exceptionService.showError(err);
@@ -158,21 +158,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateOrder()
-  {
-    const orderPayload = get(this,'order').strip(['Name','BillToAccount','ShipToAccount','SoldToAccount','PrimaryContact','Location','Owner','PriceList']);
-    this.orderService.updateOrder(get(this.orderConfirmation,"Id"),orderPayload as Order).pipe(
-      take(1)
-    ).subscribe(res => {
-      this.onOrderConfirmed();
-    },
-      err => {
-        this.orderConfirmation.set("retryUpdate",true)
-        this.orderConfirmation.set("updatePayload",orderPayload);
-        this.orderConfirmation = cloneDeep(this.orderConfirmation)
-        this.orderService.publish(this.orderConfirmation);
-      })
-  }
+  
   redirectOrderPage() {
     this.ngZone.run(() => {
       this.router.navigate(['/orders', this.orderConfirmation.Id]);
