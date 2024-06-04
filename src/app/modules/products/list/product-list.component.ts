@@ -41,10 +41,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     next: '',
     last: ''
   };
-  priceError$: Observable<boolean>;
 
   constructor(private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private categoryService: CategoryService,
-    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService, private cartService: CartService) { }
+    public productService: ProductService, private translateService: TranslateService, private accountService: AccountService) { }
 
   ngOnDestroy() {
     if (!isNil(this.subscription))
@@ -52,7 +51,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.priceError$ = this.cartService.getCartPriceStatus();
     this.router.events.subscribe((eventname: NavigationStart) => {
       if (eventname.navigationTrigger === 'popstate' && eventname instanceof NavigationStart) {
         this.productService.eventback.next(true);

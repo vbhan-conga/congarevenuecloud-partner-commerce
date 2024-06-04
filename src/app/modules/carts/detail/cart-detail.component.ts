@@ -22,7 +22,6 @@ export class CartDetailComponent implements OnInit {
   modalRef: BsModalRef;
   view$: BehaviorSubject<ManageCartState> = new BehaviorSubject<ManageCartState>(null);
   businessObject$: Observable<Order | Quote> = of(null);
-  priceError$: Observable<boolean>;
   quoteConfirmation: Quote;
   confirmationModal: BsModalRef;
   loading: boolean = false;
@@ -55,7 +54,6 @@ export class CartDetailComponent implements OnInit {
     private exceptionService: ExceptionService
   ) { }
   ngOnInit() {
-    this.priceError$ = this.cartService.getCartPriceStatus();
     this.getCart();
   }
 

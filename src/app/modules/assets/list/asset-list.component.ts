@@ -6,8 +6,7 @@ import {
   AssetLineItemExtended,
   AssetLineItem,
   AccountService, Account,
-  Cart, FieldFilter, GroupByAggregateResponse, AggregateFields,
-  Product
+  Cart, FieldFilter, GroupByAggregateResponse, AggregateFields
 } from '@congarevenuecloud/ecommerce';
 import { Observable, of, Subscription, take, map, combineLatest } from 'rxjs';
 import { isNil, set, get, filter, omit, concat, mapValues, groupBy, sumBy, first, last } from 'lodash';
@@ -291,7 +290,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
     return [
       {
         icon: 'fa-sync',
-        massAction: true,
+        massAction: false,
         label: 'ASSET_ACTIONS.RENEW',
         theme: 'primary',
         validate(record: AssetLineItemExtended, childRecords: Array<AssetLineItemExtended>): boolean {
@@ -351,7 +350,7 @@ export class AssetListComponent implements OnInit, OnDestroy {
           );
           return of(null);
         }
-      }
+      },
     ];
   }
 

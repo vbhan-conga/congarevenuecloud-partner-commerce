@@ -45,8 +45,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   activeCart: Cart = null;
   configurationPending: boolean;
   discovery: string;
-  priceProgress: boolean = false;
-
   @ViewChild(ProductConfigurationSummaryComponent, { static: false })
   configSummaryModal: ProductConfigurationSummaryComponent;
   @ViewChild(ProductConfigurationComponent, { static: false })
@@ -118,7 +116,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.relatedTo = get(this.viewState$, 'value.relatedTo');
       this.product = get(response, 'product') ? get(response, 'product') : this.product;
       this.cartItemList = get(response, 'itemList');
-      this.priceProgress= get(response, 'priceProgress');
       if (!isNil(this.cartItemList)) this.primaryLineItem = find(this.cartItemList, (r) => get(r, 'LineType') == 'Product/Service');
     }));
   }
@@ -136,7 +133,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   onAddToCart(cartItems: Array<CartItem>): void {
     this.productConfigurationService.unsavedConfiguration.next(false);
     this.configurationChanged = false;
-    const primaryItem = find(cartItems, i => get(i, 'IsPrimaryLine') === true && isNil(get(i, 'Option')));
+    const primaryItem = find(cartItems, i => get(i, 'IsPrimaryLine') === true && get(i, 'LineType')== 'Product/Service');
     if (!isNil(primaryItem) && (get(primaryItem, 'Product.HasOptions') || get(primaryItem, 'Product.HasAttributes'))) {
       this.router.navigate(['/products', get(this, 'product.Id'), get(primaryItem, 'Id')]);
     }
@@ -166,7 +163,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       forEach(this.cartItemList, c => {
         c.IsOptional = event;
       });
-    this.productConfigurationService.changeItemToOptional(this.cartItemList);
+    this.productConfigurationService.changeItemToOptional(this.cartItemList).pipe(take(1)).subscribe(()=>{});
   }
 
   handleEndDateChange(cartItem: CartItem) {
