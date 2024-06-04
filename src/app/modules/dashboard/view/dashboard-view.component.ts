@@ -16,14 +16,12 @@ export class DashboardViewComponent implements OnInit {
   cart$: Observable<Cart>;
   showFavorites$: Observable<boolean>;
   userInitials: string = null;
-  priceError$: Observable<boolean>;
 
   constructor(private userService: UserService,
     private cartService: CartService,
     private storefrontService: StorefrontService) { }
 
   ngOnInit() {
-    this.priceError$ = this.cartService.getCartPriceStatus();
     this.showFavorites$ = this.storefrontService.isFavoriteEnabled();
     this.me$ = this.userService.me().pipe(
       tap((user: User) => {
