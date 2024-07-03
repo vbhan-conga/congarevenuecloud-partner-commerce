@@ -22,7 +22,8 @@ import {
   InputDateModule,
   ConstraintRuleModule,
   AlertModule,
-  SelectAllModule
+  SelectAllModule,
+  PipesModule
 } from '@congarevenuecloud/elements';
 import { ComponentModule } from '../../components/component.module';
 import { ProductsRoutingModule } from './products-routing.module';
@@ -59,7 +60,8 @@ import { TabFeaturesComponent } from './components/tab-features.component';
     FilterModule,
     ConstraintRuleModule,
     AlertModule,
-    SelectAllModule
+    SelectAllModule,
+    PipesModule
   ],
   declarations: [ProductListComponent, ResultsComponent, ProductDetailComponent, TabAttachmentsComponent, TabFeaturesComponent]
 })

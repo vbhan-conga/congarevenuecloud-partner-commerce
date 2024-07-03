@@ -7,6 +7,7 @@ import { mergeMap, take } from 'rxjs/operators';
 import { FilterOperator } from '@congarevenuecloud/core';
 import { Category, ProductService, ProductResult, PreviousState, FieldFilter, AccountService, CategoryService, Product, FacetFilter, FacetFilterPayload, CartService, StorefrontService } from '@congarevenuecloud/ecommerce';
 import { DomSanitizer } from '@angular/platform-browser';
+import {BatchSelectionService} from '@congarevenuecloud/elements'
 
 @Component({
   selector: 'app-product-list',
@@ -43,7 +44,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     last: ''
   };
 
-  constructor(private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private categoryService: CategoryService,
+  selectedCount:number = 0; 
+
+  constructor(private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private categoryService: CategoryService, public batchSelectionService: BatchSelectionService,
     public productService: ProductService, private translateService: TranslateService, private accountService: AccountService,
     private storefrontService:StorefrontService) { }
 
@@ -86,7 +89,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.hasSearchError = false;
         this.searchString = get(params, 'query');
         this.searchString= this.sanitizer.sanitize(
-          SecurityContext.HTML,
+          SecurityContext.URL,
           this.searchString
         );
         let categories = null;
@@ -120,6 +123,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }
       this.moveToLast = false;
     });
+    this.subscription =(this.batchSelectionService.getSelectedProducts().subscribe((data)=>{
+      this.selectedCount = data?.length ? data.length : 0;
+    }));
   }
 
   scrollTop() {

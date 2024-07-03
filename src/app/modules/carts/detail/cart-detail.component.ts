@@ -5,7 +5,7 @@ import { filter, forEach, get, isEqual, isNil, isNull, lowerCase, pick, set } fr
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cart, CartItem, CartService, LineItemService, Product, Order, Quote, ItemGroup, QuoteService, ConstraintRuleService, OrderService, ItemRequest } from '@congarevenuecloud/ecommerce';
-import { BatchActionService, RevalidateCartService, ExceptionService, ButtonAction } from '@congarevenuecloud/elements';
+import { BatchActionService, RevalidateCartService, ExceptionService, ButtonAction, BatchSelectionService } from '@congarevenuecloud/elements';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { plainToClass } from 'class-transformer';
 
@@ -32,6 +32,7 @@ export class CartDetailComponent implements OnInit {
   disabled: boolean;
   searchText: string;
   cartName: string;
+  selectedCount:number = 0; 
   customButtonActions: Array<ButtonAction> = [
     {
       label: 'MY_ACCOUNT.CART_LIST.CLONE_CART',
@@ -51,7 +52,8 @@ export class CartDetailComponent implements OnInit {
     public batchActionService: BatchActionService,
     private cdr: ChangeDetectorRef,
     private modalService: BsModalService,
-    private exceptionService: ExceptionService
+    private exceptionService: ExceptionService,
+    public batchSelectionService: BatchSelectionService
   ) { }
   ngOnInit() {
     this.getCart();
@@ -63,10 +65,12 @@ export class CartDetailComponent implements OnInit {
       this.cartService.getMyCart(),
       this.crService.getRecommendationsForCart(),
       this.cartService.isCartActive(get(this.activatedRoute.params, "_value.id")) ? of(null) : this.cartService.getCartWithId(get(this.activatedRoute.params, "_value.id")),
-      this.revalidateCartService.revalidateFlag
+      this.revalidateCartService.revalidateFlag,
+      this.batchSelectionService.getSelectedLineItems()
     ]).pipe(
       debounceTime(500),
-      switchMap(([cart, products, nonActive, revalidateFlag]) => {
+      switchMap(([cart, products, nonActive, revalidateFlag, selectedCount]) => {
+        this.selectedCount = selectedCount?.length ? selectedCount.length : 0;
         this.disabled = revalidateFlag;
         this.readOnly = get(cart, 'Id') === get(nonActive, 'Id') || isNull(nonActive) ? false : true;
         if (this.readOnly) {
