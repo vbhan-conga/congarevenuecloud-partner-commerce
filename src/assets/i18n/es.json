@@ -276,7 +276,8 @@
         "SUGGESTIONS_3": "es_MX Try fewer keywords",
         "SUGGESTIONS_4": "es_MX Try more general keywords",
         "SUGGESTIONS_5": "es_MX You can search with <em>product id</em> as well",
-        "SUGGESTIONS_6": "es_MX Make sure your search string is not empty"
+        "SUGGESTIONS_6": "es_MX Make sure your search string is not empty",
+        "SELECT_ALL_MSG": "es_MX {{selectedCount}} of {{totalCount}} products selected"
     },
     "PRODUCT_CARD": {
         "INSTALLED_PRODUCT": "es_MX Installed Product",
@@ -431,10 +432,12 @@
         "PRICE_NOT_AUTOUPDATED": "es_MX * Prices shown in this page are not auto-updated.",
         "UPDATE_PRICE": "es_MX Update Prices",
         "PRICE_ERROR": "es_MX Pricing of your cart has failed, please proceed with either of the following.",
-        "PRICE_PROGRESS": "es_MX Pricing of your cart has timed out.",
+        "PRICE_PROGRESS": "es_MX Pricing of your cart is taking more time than expected.",
         "PRICE_TAKINGTIME": "es_MX Pricing of your cart is taking more time than expected.",
         "RETRY":"es_MX Retry",
+        "CHECK_STATUS":"es_MX Check status",
         "ABANDON":"es_MX Abandon",
+        "ABANDON_CART":"es_MX Abandon cart",
         "FAVORITES": "es_MX Favorites",
         "SELECTIONS": "es_MX Selections",
         "PRODUCTS": "es_MX Products",
@@ -708,7 +711,8 @@
             "ADJUSTMENTS": "ex_MX Adjustments",
             "NET_PRICE": "es_MX Net Price",
             "REMOVE": "es_MX Remove",
-            "PRODUCT_CONFIGURATION": "es_MX Product Configuration"
+            "PRODUCT_CONFIGURATION": "es_MX Product Configuration",
+            "SELECT_ALL_MSG": "es_MX {{selectedCount}} of {{totalCount}} selected"
         },
         "DISCARD_CHANGES_MODAL": {
             "DISCARD_CHANGES_TITLE": "es_MX Discard your changes",

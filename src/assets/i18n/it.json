@@ -275,7 +275,8 @@
         "SUGGESTIONS_3": "it_IT Try fewer keywords",
         "SUGGESTIONS_4": "it_IT Try more general keywords",
         "SUGGESTIONS_5": "it_IT You can search with <em>product id</em> as well",
-        "SUGGESTIONS_6": "it_IT Make sure your search string is not empty"
+        "SUGGESTIONS_6": "it_IT Make sure your search string is not empty",
+        "SELECT_ALL_MSG": "it_IT {{selectedCount}} of {{totalCount}} products selected"
     },
     "PRODUCT_CARD": {
         "INSTALLED_PRODUCT": "Prodotto Installato",
@@ -425,10 +426,12 @@
         "CONFIRM": "it_IT Confirm",
         "MY_FAVORITES": "it_IT My Favorites",
         "PRICE_ERROR": "it_IT Pricing of your cart has failed, please proceed with either of the following.",
-        "PRICE_PROGRESS": "it_IT Pricing of your cart has timed out.",
+        "PRICE_PROGRESS": "it_IT Pricing of your cart is taking more time than expected.",
         "PRICE_TAKINGTIME": "it_IT Pricing of your cart is taking more time than expected.",
         "RETRY":"it_IT Retry",
+        "CHECK_STATUS":"it_IT Check status",
         "ABANDON":"it_IT Abandon",
+        "ABANDON_CART":"it_IT Abandon cart",
         "QUOTE_ID": "it_IT Quote ID",
         "EDIT_LAYOUT": "it_IT Edit Layout",
         "ADDITIONAL_INFORMATION": "it_IT Additional Information",
@@ -697,7 +700,8 @@
             "PRODUCT_CONFIGURATION": "La Configurazione Del Prodotto",
             "CART_EMPTY": "Il tuo carrello è vuoto",
             "ALL_PRODUCTS": "Visualizza Tutti I Prodotti",
-            "HOMEPAGE": "Vai Alla Homepage"
+            "HOMEPAGE": "Vai Alla Homepage",
+            "SELECT_ALL_MSG": "it_IT {{selectedCount}} of {{totalCount}} selected"
         },
         "DISCARD_CHANGES_MODAL": {
             "DISCARD_CHANGES_TITLE": "Annullare le modifiche",
