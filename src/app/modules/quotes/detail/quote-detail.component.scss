@@ -36,25 +36,6 @@ app-quote-details {
       margin: 0 0 0 -30px;
     }
 
-    app-detail-section {
-      apt-output-field {
-        span {
-          margin-bottom: 0.5rem;
-
-          dt,
-          dd {
-            flex-basis: 50%;
-          }
-        }
-
-        &:last-child {
-          span {
-            margin-bottom: 0;
-          }
-        }
-      }
-    }
-
     .note-container,
     .attachment-container {
       height: auto;
