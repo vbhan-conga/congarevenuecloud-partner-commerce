@@ -964,7 +964,8 @@
         "SELECTED": "Selezionato",
         "OF": "Di",
         "PER_PAGE": "Per pagina",
-        "NO_DATA_TO_DISPLAY": "Nessun dato da visualizzare"
+        "NO_DATA_TO_DISPLAY": "it_IT No records found",
+        "NO_FILTERS_MATCHED":"it_IT No records match the filter criteria applied"
     },
     "FAVORITE": {
         "VISIBILITY": "it_IT Visibility",

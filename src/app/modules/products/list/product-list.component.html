@@ -11,7 +11,6 @@
             <div>
                 <apt-product-type-filter (onFilterAdd)="onFilterAdd($event)" (onFilterRemove)="onFilterRemove($event)">
                 </apt-product-type-filter>
-
                 <apt-category-filter [category]="category" title="{{'PRODUCT_LIST.RELATED_CATEGORIES' | translate}}"
                     limit="10" relationship="peers" class="mb-2" (onChange)="onCategory($event)"></apt-category-filter>
 
@@ -102,7 +101,7 @@
                             <div class="col-12">
                                 <ul class="list-unstyled list-group">
                                     <li *ngFor="let product of data?.Products let i = index; let last = last"
-                                        class="list-group-item" [class.mb-3]="last">
+                                         [class.mb-3]="last">
                                         <apt-product-card [product]="product" type="media"></apt-product-card>
                                     </li>
                                 </ul>
