@@ -133,7 +133,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   onAddToCart(cartItems: Array<CartItem>): void {
     this.productConfigurationService.unsavedConfiguration.next(false);
     this.configurationChanged = false;
-    const primaryItem = find(cartItems, i => get(i, 'IsPrimaryLine') === true && get(i, 'LineType')== 'Product/Service');
+    const primaryItem = find(cartItems, i => get(i, 'IsPrimaryLine') === true && get(i, 'LineType') === 'Product/Service');
     if (!isNil(primaryItem) && (get(primaryItem, 'Product.HasOptions') || get(primaryItem, 'Product.HasAttributes'))) {
       this.router.navigate(['/products', get(this, 'product.Id'), get(primaryItem, 'Id')]);
     }
