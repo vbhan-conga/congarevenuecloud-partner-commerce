@@ -144,6 +144,7 @@
             "NUM_OF_ITEMS": "fr_FR of Items"
         },
         "ORDER_DETAIL": {
+            "CONFIRM_ORDER": "fr_FR Confirm Order",
             "BILLING_ADDRESS": "fr_FR Billing Address",
             "SHIPPING_ADDRESS": "fr_FR Shipping Address",
             "PAYMENT_INFO": "fr_FR Payment Information",
@@ -454,6 +455,7 @@
         "SHOW_ALL": "fr_FR Show All",
         "WELCOME_MESSAGE": "fr_FR Hello, {{userName}}!",
         "PAGES":"fr_FR Pages",
+        "REPLACE":"fr_FR Replace",
         "ATTACHMENT_DETAILS": {
             "TITLE": "fr_FR Attach new file(s)",
             "INPUT_LABEL": "fr_FR Drop files to Attach or",
@@ -579,7 +581,9 @@
         "PRODUCT_GROUP_MESSAGE": "fr_FR Product group <strong>{{productGroupName}}</strong> option(s) <span>{{message}}</span> <strong>{{productName}}</strong>",
         "PRODUCT_FAMILY_MESSAGE": "fr_FR Product family <strong>{{productFamily}}</strong> option(s) <span>{{message}}</span> <strong>{{productName}}</strong>",
         "OPTIONS": "fr_FR option(s)",
-        "PRODUCT_OPTION_GROUP_MESSAGE": "fr_FR Product Option Group <strong></strong> option(s) <span>{{message}}</span> <strong>{{productName}}</strong>"
+        "PRODUCT_OPTION_GROUP_MESSAGE": "fr_FR Product Option Group <strong></strong> option(s) <span>{{message}}</span> <strong>{{productName}}</strong>",
+        "REPLACEMENT_RULE_HEADING":"fr_FR Constraint Rule Message",
+        "STATUS_MSG":"fr_FR To be replaced"
     },
     "CONSTRAINT_SIDE_MENU": {
         "VALIDATION_MESSAGES": "fr_FR Validation Messages",
