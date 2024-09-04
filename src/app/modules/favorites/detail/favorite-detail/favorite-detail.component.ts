@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { get, set, isEmpty, forEach, omit, map as _map } from 'lodash';
+import { get, set, isEmpty, forEach, map as _map } from 'lodash';
 import { Favorite, FavoriteService, LineItemService, ItemGroup, User, UserService, FavoriteScope, Cart, CartService, CartItem } from '@congarevenuecloud/ecommerce';
 import { ExceptionService } from '@congarevenuecloud/elements';
-import { plainToClass } from 'class-transformer';
+
 @Component({
   selector: 'app-favorite-detail',
   templateUrl: './favorite-detail.component.html',
@@ -70,12 +70,11 @@ export class FavoriteDetailComponent implements OnInit, OnDestroy {
   }
 
   private getFavoriteItems(configurationId: string) {
-    this.subscriptions.push(this.favoriteService.getFavoriteConfguration(configurationId)
+    this.subscriptions.push(this.favoriteService.getFavoriteConfiguration(configurationId)
       .subscribe(res => {
         this.cart = res;
-        const cartItems = plainToClass(CartItem, get(res, 'Items'), { ignoreDecorators: true });
-        let lines = LineItemService.groupItems(cartItems as unknown as CartItem[]);
-        lines = _map(lines, obj => omit(obj, ['MainLine.IncentiveAdjustmentAmount']) as ItemGroup);
+        const cartItems = get(res, 'LineItems');
+        const lines = LineItemService.groupItems(cartItems);
         this.lineItems$.next(lines);
       }));
   }
