@@ -445,7 +445,8 @@
         "SHOW_ALL": "it_IT Show All",
         "WELCOME_MESSAGE": "it_IT Hello, {{userName}}!",
         "PAGES":"it_IT Pages",
-        "REPLACE":"it_IT Replace",
+        "REPLACE":"it_IT  Product",
+        "ACTION":"it_IT Action",
         "ATTACHMENT_DETAILS": {
             "TITLE": "Allega nuovo/i file",
             "INPUT_LABEL": "Trascina i file da allegare o",
@@ -577,7 +578,7 @@
         "PRODUCT_FAMILY_MESSAGE": "Famiglia di prodotti <strong>{{productFamily}}<\/strong> opzione(s) <span>{{messaggio}}<\/span> <strong>{{productName}}<\/strong>",
         "OPTIONS": "opzione(s)",
         "PRODUCT_OPTION_GROUP_MESSAGE": "Tipo di prodotto del Gruppo <strong><\/strong> opzione(s) <span>{{messaggio}}<\/span> <strong>{{productName}}<\/strong>",
-        "REPLACEMENT_RULE_HEADING":"it_IT Constraint Rule Message",
+        "REPLACEMENT_RULE_HEADING":"it_IT Replacement products available",
         "STATUS_MSG":"it_IT To be replaced"
     },
     "CONSTRAINT_SIDE_MENU": {
