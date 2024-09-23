@@ -12,10 +12,10 @@
         <span class="badge badge-primary mt-1 ml-3 px-3 py-2 border text-uppercase"
           *ngIf="quote?.ApprovalStage">{{quote?.ApprovalStage}}</span>
       </div>
-      <apt-generate-document *ngIf="quote.ApprovalStage !== 'Accepted'" [record]="quote"
-        [ngClass]="quote.ApprovalStage === 'Draft' ?  'pr-2 ml-auto d-lg-block d-md-block d-sm-none d-none ' :' pr-3 ml-auto d-lg-block d-md-block d-sm-none d-none'"
-        (onStatusUpdate)="onGenerateQuote()">
-      </apt-generate-document>
+        <apt-generate-document *ngIf="quote.ApprovalStage !== 'Accepted'" [record]="quote"
+          [ngClass]="quote.ApprovalStage === 'Draft' ?  'pr-2 ml-auto d-lg-block d-md-block d-sm-none d-none ' :' pr-3 ml-auto d-lg-block d-md-block d-sm-none d-none'"
+          (onStatusUpdate)="onGenerateQuote()">
+        </apt-generate-document>
       <div *ngIf="quote?.Items?.length > 0" class="d-lg-block d-md-block d-sm-none d-none">
         <button type="button"
           [ngClass]="quote?.ApprovalStage === 'Approved' || quote?.ApprovalStage === 'Generated' ?  'btn btn-outline-primary btn-link text-primary text-primary' :'btn btn-primary btn-raised'"
@@ -201,10 +201,12 @@
                       <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="Name"
                           [labelOnly]="true">
                         </apt-output-field></th>
-                      <th scope="col" class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="FileSize"
+                      <th scope="col" class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">
+                        <apt-output-field [record]="attachmentList[0].DocumentMetadata" field="FileSize"
                           [labelOnly]="true">
                         </apt-output-field></th>
-                      <th scope="col" class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="FileType"
+                      <th scope="col" class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">
+                        <apt-output-field [record]="attachmentList[0].DocumentMetadata" field="FileType"
                           [labelOnly]="true">
                         </apt-output-field></th>
                       <th scope="col"><apt-output-field [record]="attachmentList[0].DocumentMetadata" field="CreatedBy"
@@ -223,8 +225,10 @@
                         <a class="text-underline" (click)="downloadAttachment(attachment?.DocumentMetadata?.Id)"
                           target="_self">{{attachment?.DocumentMetadata?.Name}}</a>
                       </td>
-                      <td class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">{{(attachment?.DocumentMetadata?.FileSize/1024).toFixed(2)}}KB</td>
-                      <td class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">{{ getFileType(attachment?.DocumentMetadata?.FileType) }}</td>
+                      <td class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">
+                        {{(attachment?.DocumentMetadata?.FileSize/1024).toFixed(2)}}KB</td>
+                      <td class="d-lg-table-cell d-md-table-cell d-sm-none d-none text-nowrap">{{
+                        getFileType(attachment?.DocumentMetadata?.FileType) }}</td>
                       <td>{{'COMMON.ATTACHMENT_DETAILS.BY' | translate}}
                         {{attachment?.DocumentMetadata?.CreatedBy.Name}}</td>
                       <td>{{attachment?.DocumentMetadata?.CreatedDate | date:'short'}}</td>
@@ -300,8 +304,7 @@
     <label class="font-weight-bold">{{'COMMON.ATTACHMENT_DETAILS.TITLE' | translate}}</label>
     <div class="file-section d-flex align-items-center justify-content-center border-secondary file-upload"
       (dragover)="onDragFile($event)" (drop)="onDropFile($event)" data-max-size="26214400">
-      <label class="py-5 px-3 position-relative" for="browse"><span
-          class="position-absolute upload-icon-position"><i
+      <label class="py-5 px-3 position-relative" for="browse"><span class="position-absolute upload-icon-position"><i
             class="fa fa-4x fa-cloud-upload text-black-50"></i></span><span
           class="pl-5">{{'COMMON.ATTACHMENT_DETAILS.INPUT_LABEL' | translate}}</span><span
           class="pl-1 text-underline cursor-pointer">{{'COMMON.ATTACHMENT_DETAILS.BROWSE' |
@@ -317,26 +320,25 @@
     <div class="mt-2" *ngIf="file==null && isSupportedFileType && supportedFileTypes?.length">
       <p>
         {{
-          "COMMON.ATTACHMENT_DETAILS.SUPPORTED_FILE_TYPES"
-          | translate:{supportedFileTypes:supportedFileTypes}
-          }}
+        "COMMON.ATTACHMENT_DETAILS.SUPPORTED_FILE_TYPES"
+        | translate:{supportedFileTypes:supportedFileTypes}
+        }}
       </p>
     </div>
 
     <div class="mt-2" *ngIf="!isSupportedFileType && file != null && supportedFileTypes?.length">
       <p class="text-danger">
         {{
-          "COMMON.ATTACHMENT_DETAILS.UNSUPPORTED_FILE_TYPE_ERROR"
-          | translate:{supportedFileTypes:supportedFileTypes}
-          }}
+        "COMMON.ATTACHMENT_DETAILS.UNSUPPORTED_FILE_TYPE_ERROR"
+        | translate:{supportedFileTypes:supportedFileTypes}
+        }}
       </p>
     </div>
     <div class="form-group">
       <div class="mt-2" *ngIf="uploadFileList && !hasSizeError && isSupportedFileType">
         <div class="d-flex justify-content-between" *ngFor="let file of uploadFileList">
           <div class="w-40 d-flex justify-content-between align-items-center">
-            <input type="checkbox" [(ngModel)]="isPrivate" name="attachmentVisibilityScope"
-              id="attachmentScope">
+            <input type="checkbox" [(ngModel)]="isPrivate" name="attachmentVisibilityScope" id="attachmentScope">
             <label class="mb-0 mx-2" for="attachmentScope">{{'COMMON.ATTACHMENT_DETAILS.MAKE_VISIBILITY_PRIVATE' |
               translate}}</label>
           </div>
@@ -349,7 +351,8 @@
       <button class="btn btn-link" (click)="clearFiles()" type="button">{{'COMMON.CLEAR' |
         translate}}</button>
       <button class="btn btn-primary btn-primary" type="submit"
-        [disabled]="(!isSupportedFileType ||hasSizeError && file != null) || !file" [ladda]="attachmentsLoader">{{'COMMON.UPLOAD' |
+        [disabled]="(!isSupportedFileType ||hasSizeError && file != null) || !file"
+        [ladda]="attachmentsLoader">{{'COMMON.UPLOAD' |
         translate }}</button>
     </div>
   </form>
